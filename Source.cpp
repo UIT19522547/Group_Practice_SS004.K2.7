@@ -56,8 +56,8 @@ int main()
 	st[0] = "New Game";
 	st[1] = "Hight Score";
 	st[2] = "<ESC> Thoat game.";
-	int Cao = 25, Rong = 10, chon = 0/*luu lua chon cuoi cung*/, luuchon/*luu lua chon hien tai*/, soluachon = 3, ok = FALSE/*Nhan enter hay chua*/;
-	Ve_menu(Cao, Rong, chon, soluachon, st);
+	int Rong = 25, Cao = 10, chon = 0/*lua chon hien tai*/, luuchon/*lua chon truoc do*/, soluachon = 3, ok = FALSE/*Nhan enter hay chua*/;
+	Ve_menu(Rong, Cao, chon, soluachon, st);
 	do
 	{
 		ch = _getch(); //Nhan mot phim
@@ -67,15 +67,15 @@ int main()
 			luuchon = chon;
 			chon--;
 			if (chon < 0) chon = soluachon - 1;//Den cuoi thi bien dem quay lai lua chon dau
-			Write(st[luuchon], Cao, Rong + luuchon, YELLOW);//lua chon dang chon se doi mau, o dau la mau vang
-			Write(st[chon], Cao, Rong + chon, CYAN);
+			Write(st[luuchon], Rong, Cao + luuchon, YELLOW);//lua chon truoc do doi lai thanh mau vang 
+			Write(st[chon], Rong, Cao + chon, CYAN);//lua chon dang chon se doi thanh mau xanh
 			break;
 		case 80://phim xuong
 			luuchon = chon;
 			chon++;
 			if (chon == soluachon) chon = 0;
-			Write(st[luuchon], Cao, Rong + luuchon, YELLOW);
-			Write(st[chon], Cao, Rong + chon, CYAN);
+			Write(st[luuchon], Rong, Cao + luuchon, YELLOW);
+			Write(st[chon], Rong, Cao + chon, CYAN);
 			break;
 		case 13: //phim ENTER
 			ok = TRUE; break;
