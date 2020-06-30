@@ -177,14 +177,10 @@ public:
 };
 
 void PlayGame() {
-
-}
-
-int main() {
 	srand(time(NULL));
 	int KB_CODE = 0;
 	//Mặc định hướng của con rắn ban đầu là đi qua phải
-	int huong=4;
+	int huong = 4;
 	//Vừa vào trò chơi yêu cầu người chơi chọn độ khó: dễ - trung bình - khó - siêu khó;
 	int doKho;
 	int speed;
@@ -198,9 +194,9 @@ int main() {
 	S.Ve();
 	B.veKhung();
 	//Quản lý điểm số
-	string score="0";
+	string score = "0";
 	//Khai báo và khởi tạo các tham số để quản lý con mồi
-	long long timeFood=0;
+	long long timeFood = 0;
 	bool FoodAppear = false;
 	Point foodPoint;
 	//Bắt đầu game
@@ -231,24 +227,24 @@ int main() {
 		if (_kbhit()) {
 			KB_CODE = _getch();
 			switch (KB_CODE) {
-				case KB_UP: {
-					huong = 1;
-					break;
-				}
-				case KB_DOWN: {
-					huong = 2;
-					break;
-				}
-				case KB_LEFT: {
-					huong = 3;
-					break;
-				}
-				case KB_RIGHT: {
-					huong = 4;
-					break;
-				}
-				case KB_ESCAPE:
-					break;
+			case KB_UP: {
+				huong = 1;
+				break;
+			}
+			case KB_DOWN: {
+				huong = 2;
+				break;
+			}
+			case KB_LEFT: {
+				huong = 3;
+				break;
+			}
+			case KB_RIGHT: {
+				huong = 4;
+				break;
+			}
+			case KB_ESCAPE:
+				break;
 			}
 			S.setDirection(huong);
 		}
@@ -263,6 +259,10 @@ int main() {
 			break;
 		}
 	}
+}
+
+int main() {
+	
 	return 0;
 }
 
