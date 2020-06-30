@@ -56,7 +56,7 @@ int main()
 	st[0] = "New Game";
 	st[1] = "Hight Score";
 	st[2] = "<ESC> Thoat game.";
-	int Cao = 25, Rong = 10, chon = 0/*luu lua chon hien tai*/, luuchon/*luu lua chon cuoi cung*/, soluachon = 3, ok = FALSE/*Nhan enter hay chua*/;
+	int Cao = 25, Rong = 10, chon = 0/*luu lua chon cuoi cung*/, luuchon/*luu lua chon hien tai*/, soluachon = 3, ok = FALSE/*Nhan enter hay chua*/;
 	Ve_menu(Cao, Rong, chon, soluachon, st);
 	do
 	{
