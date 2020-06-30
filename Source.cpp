@@ -66,14 +66,14 @@ int main()
 		case 72: //phim len
 			luuchon = chon;
 			chon--;
-			if (chon < 0) chon = soluachon - 1;//Den cuoi thi bien dem quay lai lua chon dau
+			if (chon < 0) chon = soluachon - 1;
 			Write(st[luuchon], Rong, Cao + luuchon, YELLOW);//lua chon truoc do doi lai thanh mau vang 
 			Write(st[chon], Rong, Cao + chon, CYAN);//lua chon dang chon se doi thanh mau xanh
 			break;
 		case 80://phim xuong
 			luuchon = chon;
 			chon++;
-			if (chon == soluachon) chon = 0;
+			if (chon == soluachon) chon = 0;//Den cuoi thi bien dem quay lai lua chon dau
 			Write(st[luuchon], Rong, Cao + luuchon, YELLOW);
 			Write(st[chon], Rong, Cao + chon, CYAN);
 			break;
