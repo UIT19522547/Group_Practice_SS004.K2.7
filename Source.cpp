@@ -18,19 +18,19 @@ int textcolor(int Color)
 void Khung(int x1, int y1, int x2, int y2)
 {
 	int x, y;
-	gotoxy(x1, y1); cout << "É";
-	gotoxy(x2, y1); cout << "»";
-	gotoxy(x1, y2); cout << "È";
-	gotoxy(x2, y2); cout << "¼";
+	gotoxy(x1, y1); cout << "Ã‰";
+	gotoxy(x2, y1); cout << "Â»";
+	gotoxy(x1, y2); cout << "Ãˆ";
+	gotoxy(x2, y2); cout << "Â¼";
 	for (x = x1 + 1; x < x2; x++)
 	{
-		gotoxy(x, y1); cout << "Í";
-		gotoxy(x, y2); cout << "Í";
+		gotoxy(x, y1); cout << "Ã";
+		gotoxy(x, y2); cout << "Ã";
 	}
 	for (y = y1 + 1; y < y2; y++)
 	{
-		gotoxy(x1, y); cout << "º";
-		gotoxy(x2, y); cout << "º";
+		gotoxy(x1, y); cout << "Âº";
+		gotoxy(x2, y); cout << "Âº";
 	}
 }
 void Write(string s, int x, int y, int color)
@@ -46,7 +46,6 @@ void Ve_menu(int x0, int y0, int chon, int n, string s[])
 	for (int i = 0; i < n; i++)
 		if (i == chon) Write(s[i], x0, y0 + i, CYAN);
 		else Write(s[i], x0, y0 + i, YELLOW);
-	Write("Copyright (c) 2016 by namle12h.", x0 - 4, y0 + n + 5, 10);
 }
 
 int main()
