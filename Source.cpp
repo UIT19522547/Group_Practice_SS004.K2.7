@@ -33,7 +33,7 @@ void Khung(int x1, int y1, int x2, int y2)
 		gotoxy(x2, y); cout << "º";
 	}
 }
-void Write(string s, int x, int y, int color)
+void Write(string s, int x, int y, int color)//De in thong tin lua chon
 {
 	textcolor(color);
 	gotoxy(x, y); cout << s;
@@ -56,7 +56,7 @@ int main()
 	st[0] = "New Game";
 	st[1] = "Hight Score";
 	st[2] = "<ESC> Thoat game.";
-	int Cao = 25, Rong = 10, chon = 0, luuchon, soluachon = 3, ok = FALSE;
+	int Cao = 25, Rong = 10, chon = 0/*luu lua chon hien tai*/, luuchon/*luu lua chon cuoi cung*/, soluachon = 3, ok = FALSE/*Nhan enter hay chua*/;
 	Ve_menu(Cao, Rong, chon, soluachon, st);
 	do
 	{
@@ -66,8 +66,8 @@ int main()
 		case 72: //phim len
 			luuchon = chon;
 			chon--;
-			if (chon < 0) chon = soluachon - 1;
-			Write(st[luuchon], Cao, Rong + luuchon, YELLOW);
+			if (chon < 0) chon = soluachon - 1;//Den cuoi thi bien dem quay lai lua chon dau
+			Write(st[luuchon], Cao, Rong + luuchon, YELLOW);//lua chon dang chon se doi mau, o dau la mau vang
 			Write(st[chon], Cao, Rong + chon, CYAN);
 			break;
 		case 80://phim xuong
