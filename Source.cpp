@@ -91,7 +91,7 @@ int main()
 				break;
 			case 1:
 				system("cls");
-				cout << "Hight Score";
+			        // high score
 				exit(0);
 				break;
 			case 2:
