@@ -7,6 +7,7 @@
 #include<fstream>
 #include<stdlib.h>
 #include<string>
+#pragma execution_character_set( "utf-8" )
 #define KB_UP 72
 #define KB_DOWN 80
 #define KB_LEFT 75
@@ -18,14 +19,22 @@
 #define Cao 7
 #define CYAN 10
 #define YELLOW 14
-//Tạo thức ăn cho rắn -> Tạo 1 hàm đếm cho 1 điều kiện nhất định để thức ăn xuất hiện
-//Lưu trữ điểm: Tạo 1 file lưu trữ tên người chơi và điểm số sau mỗi màn để tạo bảng xếp hạng cho 3 người cao nhất!
 
 using namespace std;
+
 int Score = 0;
 int DoKho;
-//source: blogkhanhtoan.wordpress.com/2016/03/07/mot-so-ham-mo-rong-trong-cc/
-//Hàm này lấy trên mạng mà không dùng được nên để đây, ai sửa được thì làm thử nha~
+
+struct HighScore
+{
+	int Score;
+	string Name;
+};
+HighScore highscore[5];
+struct Point {
+	int x;
+	int y;
+};
 void XoaManHinh() {
 	HANDLE hStdOut;
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
@@ -50,24 +59,92 @@ void XoaManHinh() {
 	//Di chuyển con trỏ về nhà
 	SetConsoleCursorPosition(hStdOut, homeCoords);
 }
-
 void gotoXY(int column, int line) {
 	COORD coord;
 	coord.X = column;
 	coord.Y = line;
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
-
-struct Point {
-	int x;
-	int y;
-};
-
+void setTextColor(int color)
+{
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+}
+void DuaConTroVeDau()
+{
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	COORD pos = { 0, 0 };
+	SetConsoleCursorPosition(hConsole, pos);
+}
+void Write(string s, int x, int y, int color)//De in thong tin lua chon
+{
+	setTextColor(color);
+	gotoXY(x, y); cout << s;
+	setTextColor(15);
+}
+void Khung(int x1, int y1, int x2, int y2)
+{
+	int x, y;
+	gotoXY(x1, y1); cout << "É";
+	gotoXY(x2, y1); cout << "»";
+	gotoXY(x1, y2); cout << "È";
+	gotoXY(x2, y2); cout << "¼";
+	for (x = x1 + 1; x < x2; x++)
+	{
+		gotoXY(x, y1); cout << "Í";
+		gotoXY(x, y2); cout << "Í";
+	}
+	for (y = y1 + 1; y < y2; y++)
+	{
+		gotoXY(x1, y); cout << "º";
+		gotoXY(x2, y); cout << "º";
+	}
+}
+void Ve_menu(int x0, int y0, int chon, int n, string s[])
+{
+	y0 += 4;
+	x0 += 10;
+	system("cls");
+	Write(" -----------------------------------------------\n", 24, 1, 7);
+	Write("|                                               |\n", 24, 2, 7);
+	Write("|    ******   *     *      *     *  *  *****    |\n", 24, 3, 7);
+	Write("|   *         * *   *     * *    * *   *        |\n", 24, 4, 7);
+	Write("|    ******   *  *  *    *   *   **    ****     | \n", 24, 5, 7);
+	Write("|          *  *   * *   *******  * *   *        | \n", 24, 6, 7);
+	Write("|    ******   *     *  *       * *  *  *****    |\n", 24, 7, 7);
+	Write("|                                               |\n", 24, 8, 7);
+	Write(" ----------------------------------------------- \n", 24, 9, 7);
+	cout << "" << endl << endl;
+	Khung(x0 - 2, y0 - 1, x0 + 30, y0 + n);
+	for (int i = 0; i < n; i++)
+		if (i == chon) Write(s[i], x0, y0 + i, CYAN);
+		else Write(s[i], x0, y0 + i, YELLOW);
+}
+void endgame() //just some screens for certain actions
+{
+	cout << "" << endl << endl;
+	cout << " ------------------------------------------------------------------------- " << endl;
+	cout << "|    *****      *     *       * ******       ****  *       ****** ****    |" << endl;
+	cout << "|   *          * *    * *   * * *           *    *  *     * *     *   *   |" << endl;
+	cout << "|   *  ****   *   *   *  * *  * *****       *    *   *   *  ****  ****    |" << endl;
+	cout << "|   *  *  *  *******  *   *   * *           *    *    * *   *     * *     |" << endl;
+	cout << "|    *****  *       * *       * ******       ****      *    ***** *   *   |" << endl;
+	cout << " ------------------------------------------------------------------------- " << endl;
+	cout << "" << endl << endl;
+	int tam;
+	if (Score > highscore[0].Score) {
+		 tam = Score;
+	}
+	else (tam = highscore[0].Score);
+	cout << "                        Y O U R   S C O R E : " << Score << endl << endl;
+	cout << "                        H I G H   S C O R E : " << tam << endl;
+	cout << "" << endl << endl;
+}
 class BACKGROUND {
 public:
 	void veKhung() {
 		int j = 0;
 		int i = 0;
+		setTextColor(15);
 		for (i = 0; i <= width; i += 2) {
 			gotoXY(i, j);
 			cout << "= ";
@@ -87,14 +164,17 @@ public:
 			gotoXY(i, j);
 			cout << "= ";
 		}
+		setTextColor(14);
 
 	}
-	void drawFood(Point F) {
+	void drawFood(Point& F) {
 		gotoXY(F.x, F.y);
-		cout << "*";
+		setTextColor(12);
+		cout << "X";
+		setTextColor(14);
+		DuaConTroVeDau();
 	}
 };
-
 class SNACK {
 protected:
 	Point ran[100];
@@ -112,10 +192,13 @@ public:
 		ran[2].y = 10;
 	}
 	void Ve() {
+		setTextColor(10);
 		for (int i = 0; i < doDai; i++) {
+
 			gotoXY(ran[i].x, ran[i].y);
-			cout << "X";
+			cout << "O";
 		}
+		setTextColor(14);
 	}
 	void Move() {
 		for (int i = doDai - 1; i > 0; i--) {
@@ -200,45 +283,144 @@ public:
 		return this->doDai;
 	}
 };
-int textcolor(int Color)
+class INTRODUCTION
 {
-	HANDLE h;
-	h = GetStdHandle(STD_OUTPUT_HANDLE);
-	return SetConsoleTextAttribute(h, Color);
-}
-void Write(string s, int x, int y, int color)//De in thong tin lua chon
-{
-	textcolor(color);
-	gotoXY(x, y); cout << s;
-	textcolor(15);
-}
-void Khung(int x1, int y1, int x2, int y2)
-{
-	int x, y;
-	gotoXY(x1, y1); cout << "É";
-	gotoXY(x2, y1); cout << "»";
-	gotoXY(x1, y2); cout << "È";
-	gotoXY(x2, y2); cout << "¼";
-	for (x = x1 + 1; x < x2; x++)
+public:
+	void ChuThich(bool i) // 1-xuyên tường, 2-có tường 
 	{
-		gotoXY(x, y1); cout << "Í";
-		gotoXY(x, y2); cout << "Í";
+		system("color 0E");
+		for (int j = 1; j < height; j += 2)
+		{
+			gotoXY(0, j);
+			cout << "/";
+			gotoXY(0, j + 1);
+			cout << "\\";
+			gotoXY(width, j);
+			cout << "/";
+			gotoXY(width, j - 1);
+			cout << "\\";
+		}
+		for (int i = 0; i < width; i++)
+		{
+			gotoXY(i, height);
+			cout << "-";
+		}
+		for (int i = 1; i <= width; i++)
+		{
+			gotoXY(i, 0);
+			cout << "-";
+		}
+		gotoXY(2, 2);
+		cout << "+ Hướng dẫn:";
+		string s;
+		gotoXY(2, 4);
+		cout << "  Bạn phải sử dụng các phím mũi tên hoặc các phím W,A,S,D";
+		gotoXY(2, 5);
+		cout << "để di chuyển rắn và thu thập thức ăn. Bạn thu được càng ";
+		gotoXY(2, 6);
+		cout << "nhiều thức ăn thì rắn sẽ càng dài ra và điểm số càng tăng.";
+		gotoXY(2, 7);
+		cout << "";
+		if (i == 1) //xuyên tường
+		{
+			gotoXY(2, 8);
+			cout << "  Ở chế độ xuyên tường, bạn sẽ thua cuộc nếu như để cho ";
+			gotoXY(2, 9);
+			cout << "rắn tự cắn vào bất kì phần nào trên thân nó.";
+			gotoXY(2, 11);
+			cout << "+ Chú thích:";
+			gotoXY(5, 13);
+			setTextColor(10);
+			cout << "OOOOO";
+			setTextColor(14);
+			cout << ": rắn";
+			gotoXY(width / 2 + 5, 13);
+			setTextColor(12);
+			cout << "X";
+			setTextColor(14);
+			cout << ": thức ăn";
+			gotoXY(5, 15);
+		}
+		else if (i == 0)
+		{
+			gotoXY(2, 8);
+			cout << "  Ở chế độ không xuyên tường, bạn sẽ thua cuộc nếu như";
+			gotoXY(2, 9);
+			cout << "để cho rắn va vào tường hoặc tự cắn vào bất kì phần nào";
+			gotoXY(2, 10);
+			cout << "trên thân nó.";
+			gotoXY(2, 12);
+			cout << "+ Chú thích:";
+			gotoXY(5, 14);
+			setTextColor(10);
+			cout << "OOOOO";
+			setTextColor(14);
+			cout << ": rắn";
+			gotoXY(width / 2 + 5, 14);
+			setTextColor(12);
+			cout << "X";
+			setTextColor(14);
+			cout << ": thức ăn";
+			gotoXY(5, 15);
+			setTextColor(7);
+			cout << "= = =";
+			setTextColor(14);
+			cout << ": tường";
+
+		}
+		DuaConTroVeDau();
+
+
 	}
-	for (y = y1 + 1; y < y2; y++)
+	int XuatChuThich(bool i) // trả về 1 là zô hàm play game, 0 là quay về menu 
 	{
-		gotoXY(x1, y); cout << "º";
-		gotoXY(x2, y); cout << "º";
+		int k = 2;
+		system("cls");
+		ChuThich(i);
+		char ch = NULL;
+		while (ch != 13)
+		{
+			switch (k)
+			{
+			case 1:
+				gotoXY(9, 18);
+				setTextColor(10);
+				cout << "Quay lại";
+				setTextColor(14);
+				gotoXY(42, 18);
+				cout << "Chơi";
+				DuaConTroVeDau();
+				ch = _getch();
+				if (ch == KB_RIGHT)
+					k = 2;
+				if (ch == 13)
+				{
+					system("color 0F");
+					return 0;
+				}
+				break;
+			case 2:
+				gotoXY(9, 18);
+				cout << "Quay lại";
+				gotoXY(42, 18);
+				setTextColor(10);
+				cout << "Chơi";
+				setTextColor(14);
+				DuaConTroVeDau();
+				ch = _getch();
+				if (ch == KB_LEFT)
+					k = 1;
+				if (ch == 13)
+				{
+					system("color 0F");
+					return 1;
+				}
+				break;
+			}
+		}
 	}
-}
-void Ve_menu(int x0, int y0, int chon, int n, string s[])
-{
-	system("cls");
-	Khung(x0 - 2, y0 - 1, x0 + 30, y0 + n);
-	for (int i = 0; i < n; i++)
-		if (i == chon) Write(s[i], x0, y0 + i, CYAN);
-		else Write(s[i], x0, y0 + i, YELLOW);
-}
-void PlayGame() 
+};
+int PlayGame() 
 {
 	srand(time(NULL));
 	int KB_CODE = 0;
@@ -246,12 +428,13 @@ void PlayGame()
 	int Tam;
 	//Vừa vào trò chơi yêu cầu người chơi chọn độ khó: dễ - trung bình - khó - siêu khó;
 	int speed = 0;
-	Write("Chon che do:\n\t\t\t 1-Classic\t2-Modern\n", Rong, Cao, YELLOW);
-	cout << "\t\t\t      "; cin >> Tam;
+	Khung(Rong - 2, Cao - 1, Rong + 50, Cao +5);
+	Write("\t    Chon che do\n\t\t\t\t1-Classic\t\t  2-Modern\n", Rong+10, Cao, YELLOW);
+	cout << "\t\t\t\t\t\t "; cin >> Tam;
 	if (Tam == 1) { xuyenTuong = 1; }
 	if (Tam == 2) { xuyenTuong = 0; }
-	Write("Do kho: 1-De\t2-Trung binh\t3-Kho\t4-Sieu kho\n", Rong, Cao + 2, 15);
-	cout << "\t\t\t      "; cin >> DoKho;
+	Write("Do kho: 1-De\t2-Trung binh\t3-Kho\t4-Sieu kho\n", Rong, Cao + 3, YELLOW);
+	cout << "\t\t\t\t\t\t "; cin >> DoKho;
 	switch (DoKho)
 	{
 	case 1: speed = 300; break;
@@ -259,6 +442,10 @@ void PlayGame()
 	case 3: speed = 75; break;
 	case 4: speed = 30; break;
 	}
+	INTRODUCTION I;
+	int t;
+	t=I.XuatChuThich(xuyenTuong);
+	if (t == 0) { system("cls"); return 0; }
 	//Mặc định hướng của con rắn ban đầu là đi qua phải
 	int huong = 4;
 	//Khai báo + tự động khởi tạo background và con rắn
@@ -270,33 +457,28 @@ void PlayGame()
 	B.veKhung();
 	//Khai báo và khởi tạo các tham số để quản lý con mồi
 	long long timeFood = 0;
-	bool FoodAppear = false;
+	bool FoodAppear = true;
+	bool ateFood = 1;
 	Point foodPoint;
+	do {
+		foodPoint.x = 1 + rand() % 59;
+		foodPoint.y = 1 + rand() % 19;
+	} while (S.checkFoodCollision(foodPoint));
 	//Bắt đầu game
 	while (KB_CODE != KB_ESCAPE) {
 		XoaManHinh();
 		system("cls");
-		//Xử lý con mồi (thức ăn)
-		if (timeFood > 1000000)
-			timeFood = 1;
-		if (timeFood % 5 == 0) {
-			timeFood++;
-			srand(time(NULL));
-			FoodAppear = true;
+		if (S.ateFood(foodPoint)) {
+			Point T = foodPoint;
 			do {
 				foodPoint.x = 1 + rand() % 59;
 				foodPoint.y = 1 + rand() % 19;
 			} while (S.checkFoodCollision(foodPoint));
-		}
-		if (FoodAppear == true) {
 			B.drawFood(foodPoint);
-			if (S.ateFood(foodPoint)) {
-				S.growLength(foodPoint);
-				FoodAppear = false;
-			}
+			S.growLength(T);
 		}
-		else
-			timeFood++;
+		else B.drawFood(foodPoint);
+		timeFood++;
 		if (_kbhit()) {
 			KB_CODE = _getch();
 			switch (KB_CODE) {
@@ -338,30 +520,28 @@ void PlayGame()
 			else
 				S.Ve();
 		}
-		Score = S.GetDoDai() * DoKho * 10 - S.GetDoDai() * 30;
+		Score = S.GetDoDai() * DoKho * 10 - 3* DoKho * 10;
+		Write("Score: ", 62, 10, YELLOW);
+		Write(to_string(Score), 69, 10, 15);
 		Sleep(speed);
 		//Xử lý Game Over trong chế độ không xuyên tường
 		if (xuyenTuong == 1) {
 			if (S.checkCollision()) {
-				Write("GAME OVER!", Rong, Cao, 15);
+				system("cls");
+				endgame();
 				break;
 			}
 		}
 		else {
 			if (S.checkCollision() || S.checkFrameConllision()) {
-				Write("GAME OVER!", Rong, Cao, 15);
+				system("cls");
+				endgame();
 				break;
 			}
 		}
 	}
+	return 1;
 }
-struct HighScore
-{
-	int Score;
-	string Name;
-};
-
-HighScore highscore[5];
 void SetEmpty()
 {
 	ofstream out("f:\\highscore.txt");
@@ -388,8 +568,9 @@ void ShowScore()
 void GetScore()
 {
 	ofstream out("f:\\highscore.txt");
-	Write("Nhap ten: ", Rong + 37, Cao+2, YELLOW);
+	Write("Nhap ten: ", Rong + 25, Cao+4, YELLOW);
 	cin.ignore();
+	if (highscore[0].Score == 0) { SetEmpty(); }
 	for (int i=4;i>0;i--)
 	{
 		highscore[i].Name = highscore[i - 1].Name;
@@ -416,7 +597,7 @@ void run()
 	system("cls");
 	st[0] = "New Game";
 	st[1] = "Hight Score";
-	st[2] = "<ESC> Thoat game.";
+	st[2] = "<ESC> Thoat game"; 
 	int  chon = 0/*lua chon hien tai*/, luuchon/*lua chon truoc do*/, soluachon = 3, ok = FALSE/*Nhan enter hay chua*/;
 	Ve_menu(Rong, Cao, chon, soluachon, st);
 	do
@@ -428,15 +609,15 @@ void run()
 			luuchon = chon;
 			chon--;
 			if (chon < 0) chon = soluachon - 1;//Den cuoi thi bien dem quay lai lua chon dau
-			Write(st[luuchon], Rong, Cao + luuchon, YELLOW);//lua chon truoc do doi lai thanh mau vang
-			Write(st[chon], Rong, Cao + chon, CYAN);//lua chon dang chon se doi thanh mau xanh
+			Write(st[luuchon], Rong+10, Cao + luuchon+4, YELLOW);//lua chon truoc do doi lai thanh mau vang
+			Write(st[chon], Rong+10, Cao + chon+4, CYAN);//lua chon dang chon se doi thanh mau xanh
 			break;
 		case 80://phim xuong
 			luuchon = chon;
 			chon++;
 			if (chon == soluachon) chon = 0;
-			Write(st[luuchon], Rong, Cao + luuchon, YELLOW);
-			Write(st[chon], Rong, Cao + chon, CYAN);
+			Write(st[luuchon], Rong+10, Cao + luuchon+4, YELLOW);
+			Write(st[chon], Rong+10, Cao + chon+4, CYAN);
 			break;
 		case 13: //phim ENTER
 			ok = TRUE; break;
@@ -447,15 +628,19 @@ void run()
 			{
 			case 0:
 				int PlayAgain;
+				int brk;
 			x1:
 				system("cls");
-				PlayGame();
-				if (Score >= highscore[0].Score) { GetScore();}
-				Write("Play again?", Rong, Cao + 2, 14);
-				Write("1-Yes\t2-No\n", Rong - 1, Cao + 4, 15);
-				cout << "\t\t\t      ";
-				cin >> PlayAgain;
-				if (PlayAgain == 1) goto x1;
+				brk=PlayGame();
+				if (brk == 1)
+				{
+					if (Score > highscore[0].Score) { GetScore(); }
+					Write("Play again?", Rong + 2, Cao + 9, 14);
+					Write("1-Yes\t      2-No\n", Rong - 4, Cao + 11, 15);
+					cout << "\t\t\t      ";
+					cin >> PlayAgain;
+					if (PlayAgain == 1) goto x1;
+				}
 				Ve_menu(Rong, Cao, chon, soluachon, st);
 				break;
 			case 1:
@@ -480,6 +665,7 @@ void run()
 
 int main()
 {
+	SetConsoleOutputCP(65001);
 	run();
 	return 0;
 }
