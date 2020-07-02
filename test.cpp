@@ -1,4 +1,3 @@
-
 #include<Windows.h>﻿
 #include<iostream>
 #include<conio.h>
@@ -132,7 +131,7 @@ void endgame() //just some screens for certain actions
 	cout << "" << endl << endl;
 	int tam;
 	if (Score > highscore[0].Score) {
-		 tam = Score;
+		tam = Score;
 	}
 	else (tam = highscore[0].Score);
 	cout << "                        Y O U R   S C O R E : " << Score << endl << endl;
@@ -420,7 +419,7 @@ public:
 		}
 	}
 };
-int PlayGame() 
+int PlayGame()
 {
 	srand(time(NULL));
 	int KB_CODE = 0;
@@ -428,12 +427,12 @@ int PlayGame()
 	int Tam;
 	//Vừa vào trò chơi yêu cầu người chơi chọn độ khó: dễ - trung bình - khó - siêu khó;
 	int speed = 0;
-	Khung(Rong - 2, Cao - 1, Rong + 50, Cao +5);
-	Write("\t    Chon che do\n\t\t\t\t1-Classic\t\t  2-Modern\n", Rong+10, Cao, YELLOW);
+	Khung(Rong - 2, Cao - 1, Rong + 50, Cao + 5);
+	Write("\t    Chọn chế độ\n\t\t\t\t1-Classic\t\t  2-Modern\n", Rong + 10, Cao, YELLOW);
 	cout << "\t\t\t\t\t\t "; cin >> Tam;
 	if (Tam == 1) { xuyenTuong = 1; }
 	if (Tam == 2) { xuyenTuong = 0; }
-	Write("Do kho: 1-De\t2-Trung binh\t3-Kho\t4-Sieu kho\n", Rong, Cao + 3, YELLOW);
+	Write("Độ Khó: 1-Dễ\t2-Trung bình\t3-Khó\t4-Siêu khó\n", Rong, Cao + 3, YELLOW);
 	cout << "\t\t\t\t\t\t "; cin >> DoKho;
 	switch (DoKho)
 	{
@@ -444,7 +443,7 @@ int PlayGame()
 	}
 	INTRODUCTION I;
 	int t;
-	t=I.XuatChuThich(xuyenTuong);
+	t = I.XuatChuThich(xuyenTuong);
 	if (t == 0) { system("cls"); return 0; }
 	//Mặc định hướng của con rắn ban đầu là đi qua phải
 	int huong = 4;
@@ -520,7 +519,7 @@ int PlayGame()
 			else
 				S.Ve();
 		}
-		Score = S.GetDoDai() * DoKho * 10 - 3* DoKho * 10;
+		Score = S.GetDoDai() * DoKho * 10 - 3 * DoKho * 10;
 		Write("Score: ", 62, 10, YELLOW);
 		Write(to_string(Score), 69, 10, 15);
 		Sleep(speed);
@@ -568,10 +567,10 @@ void ShowScore()
 void GetScore()
 {
 	ofstream out("f:\\highscore.txt");
-	Write("Nhap ten: ", Rong + 25, Cao+4, YELLOW);
+	Write("Nhập tên: ", Rong + 25, Cao + 4, YELLOW);
 	cin.ignore();
 	if (highscore[0].Score == 0) { SetEmpty(); }
-	for (int i=4;i>0;i--)
+	for (int i = 4; i > 0; i--)
 	{
 		highscore[i].Name = highscore[i - 1].Name;
 		highscore[i].Score = highscore[i - 1].Score;
@@ -587,7 +586,7 @@ void GetScore()
 		}
 		out << highscore[i].Name << " - " << highscore[i].Score << endl;
 	}
-	 
+
 	out.close();
 }
 void run()
@@ -596,8 +595,8 @@ void run()
 	string st[20];
 	system("cls");
 	st[0] = "New Game";
-	st[1] = "Hight Score";
-	st[2] = "<ESC> Thoat game"; 
+	st[1] = "High Score";
+	st[2] = "<ESC> Thoát game";
 	int  chon = 0/*lua chon hien tai*/, luuchon/*lua chon truoc do*/, soluachon = 3, ok = FALSE/*Nhan enter hay chua*/;
 	Ve_menu(Rong, Cao, chon, soluachon, st);
 	do
@@ -609,15 +608,15 @@ void run()
 			luuchon = chon;
 			chon--;
 			if (chon < 0) chon = soluachon - 1;//Den cuoi thi bien dem quay lai lua chon dau
-			Write(st[luuchon], Rong+10, Cao + luuchon+4, YELLOW);//lua chon truoc do doi lai thanh mau vang
-			Write(st[chon], Rong+10, Cao + chon+4, CYAN);//lua chon dang chon se doi thanh mau xanh
+			Write(st[luuchon], Rong + 10, Cao + luuchon + 4, YELLOW);//lua chon truoc do doi lai thanh mau vang
+			Write(st[chon], Rong + 10, Cao + chon + 4, CYAN);//lua chon dang chon se doi thanh mau xanh
 			break;
 		case 80://phim xuong
 			luuchon = chon;
 			chon++;
 			if (chon == soluachon) chon = 0;
-			Write(st[luuchon], Rong+10, Cao + luuchon+4, YELLOW);
-			Write(st[chon], Rong+10, Cao + chon+4, CYAN);
+			Write(st[luuchon], Rong + 10, Cao + luuchon + 4, YELLOW);
+			Write(st[chon], Rong + 10, Cao + chon + 4, CYAN);
 			break;
 		case 13: //phim ENTER
 			ok = TRUE; break;
@@ -631,7 +630,7 @@ void run()
 				int brk;
 			x1:
 				system("cls");
-				brk=PlayGame();
+				brk = PlayGame();
 				if (brk == 1)
 				{
 					if (Score > highscore[0].Score) { GetScore(); }
@@ -647,10 +646,10 @@ void run()
 				system("cls");
 				ShowScore();
 				int Xoa;
-				Write("Xoa HighScore:\n\t\t\t 1-Co\t2-Khong\n", Rong, Cao + 7,YELLOW);
+				Write("Xoá HighScore:\n\t\t\t 1-Có\t2-Không\n", Rong, Cao + 7, YELLOW);
 				cout << "\t\t\t"; cin >> Xoa;
 				if (Xoa == 1) { SetEmpty(); }
-				cout << "\n\n" << "\t\t\t" ;
+				cout << "\n\n" << "\t\t\t";
 				system("pause");
 				Ve_menu(Rong, Cao, chon, soluachon, st);
 				break;
