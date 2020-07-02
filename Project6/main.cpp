@@ -19,7 +19,7 @@
 using namespace std;
 
 //source: blogkhanhtoan.wordpress.com/2016/03/07/mot-so-ham-mo-rong-trong-cc/
-//Hàm này lấy trên mạng mà không dùng được nên để đây, ai sửa được thì làm thử nha~
+//dùng hàm xóa màn hình kết hợp system("cls") -> vẽ khung không bị giựt
 void XoaManHinh() {
 	HANDLE hStdOut;
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
@@ -160,6 +160,22 @@ public:
 		}
 		return false;
 	}
+	//Cho rắn đi xuyên tường
+	void goThroughWall() {
+		//di chuyển đầu rắn sang phía bên không gian ngược lại
+		if (direction == 1) {
+			ran[0].y = height-1;
+		}
+		else if (direction == 2) {
+			ran[0].y = 1;
+		}
+		else if (direction == 3) {
+			ran[0].x = width-1;
+		}
+		else {
+			ran[0].x = 1;
+		}
+	}
 	//Kiểm tra xem con rắn có ăn thức ăn hay chưa?
 	bool ateFood(Point F) {
 		if (ran[0].x == F.x && ran[0].y == F.y)
@@ -176,16 +192,13 @@ public:
 	}
 };
 
-void PlayGame() {
+void PlayGame(bool xuyenTuong,int doKho) {
 	srand(time(NULL));
 	int KB_CODE = 0;
 	//Mặc định hướng của con rắn ban đầu là đi qua phải
 	int huong = 4;
 	//Vừa vào trò chơi yêu cầu người chơi chọn độ khó: dễ - trung bình - khó - siêu khó;
-	int doKho;
-	int speed;
-	//Chọn chế độ: xuyên tường hay không?
-	bool xuyenTuong;
+	int speed=500;
 	//Khai báo + tự động khởi tạo background và con rắn
 	SNACK S;
 	BACKGROUND B;
@@ -249,20 +262,43 @@ void PlayGame() {
 			S.setDirection(huong);
 		}
 		B.veKhung();
-		S.Ve();
-		S.Move();
-		Sleep(200);
-		//Xử lý Game Over
-		if (S.checkCollision() || S.checkFrameConllision()) {
-			gotoXY(width / 2, height / 2);
-			cout << "GAME OVER!";
-			break;
+		if (xuyenTuong == 1 && S.checkFrameConllision()) {
+			S.goThroughWall();
+			S.Ve();
+		}
+		else {
+			S.Move();
+			if (S.checkFrameConllision());
+			else
+				S.Ve();
+		}
+		Sleep(speed);
+		//Xử lý Game Over trong chế độ không xuyên tường
+		if (xuyenTuong == 1) {
+			if(S.checkCollision()) {
+				gotoXY(width / 2, height / 2);
+				cout << "GAME OVER!";
+				break;
+			}
+		}
+		else {
+			if (S.checkCollision() || S.checkFrameConllision()) {
+				gotoXY(width / 2, height / 2);
+				cout << "GAME OVER!";
+				break;
+			}
 		}
 	}
 }
 
 int main() {
-	
+	//Chọn chế độ: xuyên tường hay không? Mặc định là không xuyên tường
+	bool xuyenTuong = 1;
+	//doKho: 1- dễ, 2- tb, 3- khó, độ khó = speed = thông số speed - Độ khó càng cao -> speed càng nhanh -> tham số 
+	//truyền vào Sleep càng nhỏ
+	int doKho;
+	doKho = 1;
+	PlayGame(xuyenTuong,doKho);
 	return 0;
 }
 
