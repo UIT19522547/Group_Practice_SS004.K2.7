@@ -82,36 +82,42 @@ void Write(string s, int x, int y, int color)//De in thong tin lua chon
 }
 void Khung(int x1, int y1, int x2, int y2)
 {
+	x1 -= 2;
+	x2 += 2;
 	int x, y;
-	gotoXY(x1, y1); cout << "É";
-	gotoXY(x2, y1); cout << "»";
-	gotoXY(x1, y2); cout << "È";
-	gotoXY(x2, y2); cout << "¼";
-	for (x = x1 + 1; x < x2; x++)
+	setTextColor(3);
+	for (x = x1; x <= x2; x+=2)
 	{
-		gotoXY(x, y1); cout << "Í";
-		gotoXY(x, y2); cout << "Í";
+		gotoXY(x, y1); cout << "'.";
+		gotoXY(x, y2); cout << "'.";
 	}
-	for (y = y1 + 1; y < y2; y++)
+	for (y = y1; y <= y2; y++)
 	{
-		gotoXY(x1, y); cout << "º";
-		gotoXY(x2, y); cout << "º";
+		gotoXY(x1, y); cout << "'.";
+		gotoXY(x2, y); cout << "'.";
 	}
+	setTextColor(14);
 }
 void Ve_menu(int x0, int y0, int chon, int n, string s[])
 {
 	y0 += 4;
 	x0 += 10;
+	int a = 3, b = 14;
 	system("cls");
-	Write(" -----------------------------------------------\n", 24, 1, 7);
-	Write("|                                               |\n", 24, 2, 7);
-	Write("|    ******   *     *      *     *  *  *****    |\n", 24, 3, 7);
-	Write("|   *         * *   *     * *    * *   *        |\n", 24, 4, 7);
-	Write("|    ******   *  *  *    *   *   **    ****     | \n", 24, 5, 7);
-	Write("|          *  *   * *   *******  * *   *        | \n", 24, 6, 7);
-	Write("|    ******   *     *  *       * *  *  *****    |\n", 24, 7, 7);
-	Write("|                                               |\n", 24, 8, 7);
-	Write(" ----------------------------------------------- \n", 24, 9, 7);
+	Write(" -----------------------------------------------\n", 26, 1, a);
+	Write("|                                               |\n", 26, 2, a);
+	Write("|                                               |\n", 26, 3, a);
+	Write("|                                               |\n", 26, 4, a);
+	Write("|                                               |\n", 26, 5, a);
+	Write("|                                               |\n", 26, 6, a);
+	Write("|                                               |\n", 26, 7, a);
+	Write("|                                               |\n", 26, 8, a);
+	Write(" -----------------------------------------------\n", 26, 9, a);
+	Write("    ******   *     *      *     *   * *****    \n", 27, 3, b);
+	Write("   *         * *   *     * *    * *   *        \n", 27, 4, b);
+	Write("    ******   *  *  *    *   *   **    ****     \n", 27, 5, b);
+	Write("          *  *   * *   *******  * *   *        \n", 27, 6, b);
+	Write("    ******   *     *  *       * *   * *****    \n", 27, 7, b);
 	cout << "" << endl << endl;
 	Khung(x0 - 2, y0 - 1, x0 + 30, y0 + n);
 	for (int i = 0; i < n; i++)
@@ -120,6 +126,7 @@ void Ve_menu(int x0, int y0, int chon, int n, string s[])
 }
 void endgame() //just some screens for certain actions
 {
+	setTextColor(14);
 	cout << "" << endl << endl;
 	cout << " ------------------------------------------------------------------------- " << endl;
 	cout << "|    *****      *     *       * ******       ****  *       ****** ****    |" << endl;
@@ -129,6 +136,7 @@ void endgame() //just some screens for certain actions
 	cout << "|    *****  *       * *       * ******       ****      *    ***** *   *   |" << endl;
 	cout << " ------------------------------------------------------------------------- " << endl;
 	cout << "" << endl << endl;
+	setTextColor(7);
 	int tam;
 	if (Score > highscore[0].Score) {
 		tam = Score;
@@ -287,7 +295,7 @@ class INTRODUCTION
 public:
 	void ChuThich(bool i) // 1-xuyên tường, 2-có tường 
 	{
-		system("color 0E");
+		setTextColor(3);
 		for (int j = 1; j < height; j += 2)
 		{
 			gotoXY(0, j);
@@ -309,6 +317,7 @@ public:
 			gotoXY(i, 0);
 			cout << "-";
 		}
+		setTextColor(14);
 		gotoXY(2, 2);
 		cout << "+ Hướng dẫn:";
 		string s;
@@ -319,7 +328,7 @@ public:
 		gotoXY(2, 6);
 		cout << "nhiều thức ăn thì rắn sẽ càng dài ra và điểm số càng tăng.";
 		gotoXY(2, 7);
-			cout << "Bạn có thể bấm phím SPACE để tạm dừng.";
+		cout << "Bạn có thể bấm phím SPACE để tạm dừng.";
 		gotoXY(2, 8);
 		cout << "";
 		if (i == 1) //xuyên tường
@@ -386,10 +395,10 @@ public:
 			case 1:
 				gotoXY(9, 18);
 				setTextColor(10);
-				cout << "Quay lại";
+				cout << "Back";
 				setTextColor(14);
 				gotoXY(42, 18);
-				cout << "Chơi";
+				cout << "Play";
 				DuaConTroVeDau();
 				ch = _getch();
 				if (ch == KB_RIGHT)
@@ -402,10 +411,10 @@ public:
 				break;
 			case 2:
 				gotoXY(9, 18);
-				cout << "Quay lại";
+				cout << "Back";
 				gotoXY(42, 18);
 				setTextColor(10);
-				cout << "Chơi";
+				cout << "Play";
 				setTextColor(14);
 				DuaConTroVeDau();
 				ch = _getch();
@@ -429,13 +438,31 @@ int PlayGame()
 	int Tam;
 	//Vừa vào trò chơi yêu cầu người chơi chọn độ khó: dễ - trung bình - khó - siêu khó;
 	int speed = 0;
-	Khung(Rong - 2, Cao - 1, Rong + 50, Cao + 5);
-	Write("\t    Chọn chế độ\n\t\t\t\t1-Classic\t\t  2-Modern\n", Rong + 10, Cao, YELLOW);
-	cout << "\t\t\t\t\t\t "; cin >> Tam;
+	Khung(Rong - 2, Cao - 1, Rong + 50, Cao + 6);
+	gotoXY(Rong + 19, Cao);
+	cout << "Chọn chế độ";
+	gotoXY(Rong + 6, Cao+1);
+	cout << " 1 - Classic\t\t2 - Modern\n";
+	gotoXY(Rong +24, Cao+2);
+	setTextColor(15);
+	cin >> Tam;
 	if (Tam == 1) { xuyenTuong = 1; }
 	if (Tam == 2) { xuyenTuong = 0; }
-	Write("Độ Khó: 1-Dễ\t2-Trung bình\t3-Khó\t4-Siêu khó\n", Rong, Cao + 3, YELLOW);
-	cout << "\t\t\t\t\t\t "; cin >> DoKho;
+	//Write("\t\t    Chọn độ khó\n\t\t\t   1-Dễ\t2-Trung bình\t3-Khó\t 4-Siêu khó\n", Rong+3, Cao + 3, YELLOW);
+	setTextColor(14);
+	gotoXY(Rong + 19, Cao+3);
+	cout << "Chọn độ khó";
+	gotoXY(Rong+1, Cao + 4);
+	cout << "1 - Dễ"; 
+	gotoXY(Rong + 10, Cao + 4);
+	cout << "2 - Trung bình";
+	gotoXY(Rong + 27, Cao + 4);
+	cout << "3 - Khó";
+	gotoXY(Rong + 37, Cao + 4);
+	cout << "4 - Siêu khó";
+	gotoXY(Rong + 24, Cao + 5); 
+	setTextColor(15);
+	cin >> DoKho;
 	switch (DoKho)
 	{
 	case 1: speed = 300; break;
@@ -524,6 +551,7 @@ int PlayGame()
 		Score = S.GetDoDai() * DoKho * 10 - 3 * DoKho * 10;
 		Write("Score: ", 62, 10, YELLOW);
 		Write(to_string(Score), 69, 10, 15);
+		DuaConTroVeDau();
 		Sleep(speed);
 		//Xử lý Game Over trong chế độ không xuyên tường
 		if (xuyenTuong == 1) {
@@ -598,11 +626,12 @@ void run()
 	system("cls");
 	st[0] = "New Game";
 	st[1] = "High Score";
-	st[2] = "<ESC> Thoát game";
+	st[2] = "Quit game";
 	int  chon = 0/*lua chon hien tai*/, luuchon/*lua chon truoc do*/, soluachon = 3, ok = FALSE/*Nhan enter hay chua*/;
 	Ve_menu(Rong, Cao, chon, soluachon, st);
 	do
 	{
+		DuaConTroVeDau();
 		ch = _getch(); //Nhan mot phim
 		switch (ch)
 		{
@@ -636,9 +665,10 @@ void run()
 				if (brk == 1)
 				{
 					if (Score > highscore[0].Score) { GetScore(); }
-					Write("Play again?", Rong + 2, Cao + 9, 14);
-					Write("1-Yes\t      2-No\n", Rong - 4, Cao + 11, 15);
-					cout << "\t\t\t      ";
+					Write("   Play again?", Rong + 2, Cao + 9, 14);
+					gotoXY(Rong+3, Cao + 11);
+					cout << "1-Yes      2-No";
+					gotoXY(Rong +10, Cao + 13);
 					cin >> PlayAgain;
 					if (PlayAgain == 1) goto x1;
 				}
@@ -661,6 +691,7 @@ void run()
 			}
 			ok = FALSE; //tra lai trang thai ENTER chua duoc nhan
 		}
+		
 	} while (ch != 27);//Nhan phim ESC de thoat khoi chuong trinh
 }
 
