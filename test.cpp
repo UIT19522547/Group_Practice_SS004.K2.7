@@ -319,6 +319,8 @@ public:
 		gotoXY(2, 6);
 		cout << "nhiều thức ăn thì rắn sẽ càng dài ra và điểm số càng tăng.";
 		gotoXY(2, 7);
+			cout << "Bạn có thể bấm phím SPACE để tạm dừng.";
+		gotoXY(2, 8);
 		cout << "";
 		if (i == 1) //xuyên tường
 		{
