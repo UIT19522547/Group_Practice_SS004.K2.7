@@ -465,10 +465,10 @@ int PlayGame()
 	cin >> DoKho;
 	switch (DoKho)
 	{
-	case 1: speed = 300; break;
-	case 2: speed = 200; break;
-	case 3: speed = 75; break;
-	case 4: speed = 30; break;
+	case 1: speed = 250; break;
+	case 2: speed = 100; break;
+	case 3: speed = 50; break;
+	case 4: speed = 0; break;
 	}
 	INTRODUCTION I;
 	int t;
