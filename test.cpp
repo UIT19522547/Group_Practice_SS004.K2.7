@@ -293,7 +293,7 @@ public:
 class INTRODUCTION
 {
 public:
-	void ChuThich(bool i) // 1-xuyên tường, 2-có tường 
+	void ChuThich(bool i) // 1-xuyên tường, 2-có tường
 	{
 		setTextColor(3);
 		for (int j = 1; j < height; j += 2)
@@ -382,7 +382,7 @@ public:
 
 
 	}
-	int XuatChuThich(bool i) // trả về 1 là zô hàm play game, 0 là quay về menu 
+	int XuatChuThich(bool i) // trả về 1 là zô hàm play game, 0 là quay về menu
 	{
 		int k = 2;
 		system("cls");
@@ -453,14 +453,14 @@ int PlayGame()
 	gotoXY(Rong + 19, Cao+3);
 	cout << "Chọn độ khó";
 	gotoXY(Rong+1, Cao + 4);
-	cout << "1 - Dễ"; 
+	cout << "1 - Dễ";
 	gotoXY(Rong + 10, Cao + 4);
 	cout << "2 - Trung bình";
 	gotoXY(Rong + 27, Cao + 4);
 	cout << "3 - Khó";
 	gotoXY(Rong + 37, Cao + 4);
 	cout << "4 - Siêu khó";
-	gotoXY(Rong + 24, Cao + 5); 
+	gotoXY(Rong + 24, Cao + 5);
 	setTextColor(15);
 	cin >> DoKho;
 	switch (DoKho)
@@ -509,32 +509,26 @@ int PlayGame()
 		timeFood++;
 		if (_kbhit()) {
 			KB_CODE = _getch();
-			switch (KB_CODE) {
-			case KB_UP: {
+			if(KB_CODE==KB_UP || KB_CODE=='W'|| KB_CODE=='w') {
 				huong = 1;
-				break;
 			}
-			case KB_DOWN: {
+			if(KB_CODE== KB_DOWN || KB_CODE== 'S'|| KB_CODE=='s') {
 				huong = 2;
-				break;
 			}
-			case KB_LEFT: {
+			if(KB_CODE==KB_LEFT || KB_CODE== 'A'|| KB_CODE=='a') {
 				huong = 3;
-				break;
 			}
-			case KB_RIGHT: {
+			if(KB_CODE== KB_RIGHT || KB_CODE== 'F'|| KB_CODE=='d') {
 				huong = 4;
-				break;
 			}
-			case KB_ESCAPE:
-				break;
-			case 32:
-				B.veKhung();
+			if(KB_CODE== KB_ESCAPE){return 0;}
+			if(KB_CODE==32)
+            {
+                B.veKhung();
 				S.Ve();
 				cout << "\n\n\n\n\n\n\n\n\n\n\n\n";
 				system("pause");
-				break;
-			}
+            }
 			S.setDirection(huong);
 		}
 		B.veKhung();
@@ -691,7 +685,7 @@ void run()
 			}
 			ok = FALSE; //tra lai trang thai ENTER chua duoc nhan
 		}
-		
+
 	} while (ch != 27);//Nhan phim ESC de thoat khoi chuong trinh
 }
 
