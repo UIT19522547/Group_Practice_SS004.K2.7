@@ -152,24 +152,11 @@ public:
 		int j = 0;
 		int i = 0;
 		setTextColor(15);
-		for (i = 0; i <= width; i += 2) {
-			gotoXY(i, j);
-			cout << "= ";
-		}
-		i = width;
-		for (j = 1; j <= height; j++) {
-			gotoXY(i, j);
-			cout << "=";
-		}
-		i = 0;
-		for (j = 1; j <= height; j++) {
-			gotoXY(i, j);
-			cout << "=";
-		}
-		j = height;
-		for (i = 0; i <= width; i += 2) {
-			gotoXY(i, j);
-			cout << "= ";
+		fstream outFile("Khung.txt");
+		char s[width];
+		while (!outFile.eof()) {
+			outFile.getline(s, width);
+			cout << s << endl;
 		}
 		setTextColor(14);
 
@@ -695,3 +682,4 @@ int main()
 	run();
 	return 0;
 }
+s
