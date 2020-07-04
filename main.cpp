@@ -141,7 +141,7 @@ void endgame() //just some screens for certain actions
 	if (Score > highscore[0].Score) {
 		tam = Score;
 	}
-	else (tam = highscore[0].Score);
+	else {tam = highscore[0].Score;}
 	cout << "                        Y O U R   S C O R E : " << Score << endl << endl;
 	cout << "                        H I G H   S C O R E : " << tam << endl;
 	cout << "" << endl << endl;
