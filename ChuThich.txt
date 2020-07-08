@@ -149,19 +149,19 @@ public:
 		cout << "+ Hướng dẫn:";
 		string s;
 		gotoXY(2, 4);
-		cout << "  Đây là trò chơi Con rắn. Trong trò chơi này, bạn phải ";
+		cout << "  Bạn phải sử dụng các phím mũi tên hoặc các phím W,A,S,D";
 		gotoXY(2, 5);
-		cout << "di chuyển con rắn trong một khu vực nhất định để thu thập ";
+		cout << "để di chuyển rắn và thu thập thức ăn. Bạn thu được càng ";
 		gotoXY(2, 6);
-		cout << "thức ăn. Bạn thu được càng nhiều thức ăn thì rắn sẽ càng ";
+		cout << "nhiều thức ăn thì rắn sẽ càng dài ra và điểm số càng tăng.";
 		gotoXY(2, 7);
-		cout << "dài ra và điểm số sẽ càng tăng.";
+		cout << "";
 		if(i==1) //xuyên tường
 		{
 			gotoXY(2, 8);
-			cout << "  Ở chế độ xuyên tường, bạn sẽ thua cuộc nếu như để cho rắn ";
+			cout << "  Ở chế độ xuyên tường, bạn sẽ thua cuộc nếu như để cho ";
 			gotoXY(2, 9);
-			cout << "tự cắn vào bất kì phần nào trên thân nó.";
+			cout << "rắn tự cắn vào bất kì phần nào trên thân nó.";
 			gotoXY(2, 11);
 			cout << "+ Chú thích:";
 			gotoXY(5, 13);
@@ -469,19 +469,19 @@ void PlayGame(bool xuyenTuong,int doKho) {
 int main() {
 	SetConsoleOutputCP(65001); // ghi tiếng Việt
 	//Chọn chế độ: xuyên tường hay không? Mặc định là không xuyên tường
-	bool xuyenTuong = 0;
+	bool xuyenTuong = 1;
 	//doKho: 1- dễ, 2- tb, 3- khó, độ khó = speed = thông số speed - Độ khó càng cao -> speed càng nhanh -> tham số 
 	//truyền vào Sleep càng nhỏ
 	int doKho;
 	doKho = 1;
 	INTRODUCTION I;
-	int i = 2, t; // ghi lại i=1 để bắt đầu ở case 1 là xuất menu
+	int i = 2, t; // ghi lại là 1 để bắt đầu ở case 1 là xuất menu
 	do
 	{
 		switch(i)
 		{
 		case 1:
-			// xuất menu, thêm nhiều case nữa để xuất nhiều trang nha
+			// xuất menu
 			break;
 		case 2:
 			t = I.XuatChuThich(xuyenTuong);
@@ -494,10 +494,10 @@ int main() {
 			break;
 		// xuất lại menu
 		case 4:
-		// ai ghi case 4 kết thúc game giúp tui với
+		// ai ghi case 4 là kết thúc game giúp tui với
 			break;
 		}
 	} while (i != 4);
-	// ai ghi lại giúp tui nguyên cái hàm main càng tốt :))
+	// ai ghi lại cái hàm main càng tốt :))
 	return 0;
 }

@@ -472,8 +472,7 @@ int PlayGame()
 	B.veKhung();
 	//Khai báo và khởi tạo các tham số để quản lý con mồi
 	long long timeFood = 0;
-	bool FoodAppear = true;
-	bool ateFood = 1;
+	bool FoodAppear = false;
 	Point foodPoint;
 	do {
 		foodPoint.x = 1 + rand() % 59;
@@ -483,17 +482,27 @@ int PlayGame()
 	while (KB_CODE != KB_ESCAPE) {
 		XoaManHinh();
 		system("cls");
-		if (S.ateFood(foodPoint)) {
-			Point T = foodPoint;
+		//Xử lý con mồi (thức ăn)
+		if (timeFood > 1000000)
+			timeFood = 1;
+		if (timeFood % 5 == 0) {
+			timeFood++;
+			srand(time(NULL));
+			FoodAppear = true;
 			do {
 				foodPoint.x = 1 + rand() % 59;
 				foodPoint.y = 1 + rand() % 19;
 			} while (S.checkFoodCollision(foodPoint));
-			B.drawFood(foodPoint);
-			S.growLength(T);
 		}
-		else B.drawFood(foodPoint);
-		timeFood++;
+		if (FoodAppear == true) {
+			B.drawFood(foodPoint);
+			if (S.ateFood(foodPoint)) {
+				S.growLength(foodPoint);
+				FoodAppear = false;
+			}
+		}
+		else
+			timeFood++;
 		if (_kbhit()) {
 			KB_CODE = _getch();
 			if (KB_CODE == KB_UP || KB_CODE == 'W' || KB_CODE == 'w') {
@@ -682,4 +691,3 @@ int main()
 	run();
 	return 0;
 }
-s
