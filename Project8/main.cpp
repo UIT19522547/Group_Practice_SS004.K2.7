@@ -39,19 +39,13 @@ void XoaManHinh() {
 	COORD homeCoords = { 0,0 };
 	hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	if (hStdOut == INVALID_HANDLE_VALUE) return;
-
 	//Lấy số lượng ô trong bộ nhớ đệm hiện tại
 	if (!GetConsoleScreenBufferInfo(hStdOut, &csbi))
 		cellCount = csbi.dwSize.X * csbi.dwSize.Y;
-
 	//Lấp đầy bộ nhớ đệm với khoảng trắng
-	if (!FillConsoleOutputCharacter(hStdOut, (TCHAR)' ',
-		cellCount, homeCoords, &count)) return;
-
+	if (!FillConsoleOutputCharacter(hStdOut, (TCHAR)' ',cellCount, homeCoords, &count)) return;
 	//Lấp đầy bộ nhớ đệm với màu và thuộc tính hiện tại
-	if (!FillConsoleOutputAttribute(hStdOut, csbi.wAttributes
-		, cellCount, homeCoords, &count)) return;
-
+	if (!FillConsoleOutputAttribute(hStdOut, csbi.wAttributes, cellCount, homeCoords, &count)) return;
 	//Di chuyển con trỏ về nhà
 	SetConsoleCursorPosition(hStdOut, homeCoords);
 }
@@ -71,7 +65,6 @@ void DuaConTroVeDau()
 	COORD pos = { 0, 0 };
 	SetConsoleCursorPosition(hConsole, pos);
 }
-
 
 class MENU
 {
@@ -153,7 +146,6 @@ public:
 			cout << "= ";
 		}
 		setTextColor(14);
-
 	}
 	void drawFood(Point& F) {
 		gotoXY(F.x, F.y);
@@ -263,18 +255,13 @@ public:
 	}
 	void goThroughWall() {
 		//di chuyển đầu rắn sang phía bên không gian ngược lại
-		if (direction == 1) {
+		if (direction == 1)
 			ran[0].y = height - 1;
-		}
-		else if (direction == 2) {
+		else if (direction == 2)
 			ran[0].y = 1;
-		}
-		else if (direction == 3) {
+		else if (direction == 3)
 			ran[0].x = width - 1;
-		}
-		else {
-			ran[0].x = 1;
-		}
+		else ran[0].x = 1;
 	}
 	int GetDoDai()
 	{
@@ -289,24 +276,18 @@ public:
 		setTextColor(3);
 		for (int j = 1; j < height; j += 2)
 		{
-			gotoXY(0, j);
-			cout << "/";
-			gotoXY(0, j + 1);
-			cout << "\\";
-			gotoXY(width, j);
-			cout << "/";
-			gotoXY(width, j - 1);
-			cout << "\\";
+			gotoXY(0, j); cout << "/";
+			gotoXY(0, j + 1); cout << "\\";
+			gotoXY(width, j); cout << "/";
+			gotoXY(width, j - 1); cout << "\\";
 		}
 		for (int i = 0; i < width; i++)
 		{
-			gotoXY(i, height);
-			cout << "-";
+			gotoXY(i, height); cout << "-";
 		}
 		for (int i = 1; i <= width; i++)
 		{
-			gotoXY(i, 0);
-			cout << "-";
+			gotoXY(i, 0); cout << "-";
 		}
 		setTextColor(14);
 		gotoXY(2, 2);
@@ -347,8 +328,6 @@ public:
 			setTextColor(14); cout << ": tường";
 		}
 		DuaConTroVeDau();
-
-
 	}
 	int XuatChuThich(bool i) // trả về 1 là zô hàm play game, 0 là quay về menu
 	{
@@ -362,10 +341,8 @@ public:
 			switch (k)
 			{
 			case 1:
-				gotoXY(9, 18);
-				setTextColor(10); cout << "Back";
-				gotoXY(42, 18);
-				setTextColor(14); cout << "Play";
+				gotoXY(9, 18); setTextColor(10); cout << "Back";
+				gotoXY(42, 18); setTextColor(14); cout << "Play";
 				DuaConTroVeDau();
 				ch = _getch();
 				if (ch == KB_RIGHT)
@@ -374,10 +351,8 @@ public:
 					return 0;
 				break;
 			case 2:
-				gotoXY(9, 18);
-				setTextColor(14); cout << "Back";
-				gotoXY(42, 18);
-				setTextColor(10); cout << "Play";
+				gotoXY(9, 18); setTextColor(14); cout << "Back";
+				gotoXY(42, 18); setTextColor(10); cout << "Play";
 				DuaConTroVeDau();
 				ch = _getch();
 				if (ch == KB_LEFT)
@@ -465,9 +440,9 @@ public:
 			cout << highscore[i].Name << " - " << highscore[i].Score;
 			i++;
 		}
-		int Xoa=1;
+		int Xoa=2;
 		setTextColor(14);
-		gotoXY(Rong, Cao + 7); cout << "Xóa dữ liệu Highscore?";
+		gotoXY(Rong, Cao + 7); cout << "Delete highscore data?";
 		char ch = NULL;
 		while (ch != 13)
 		{
@@ -476,8 +451,8 @@ public:
 			{
 			case 1:
 				gotoXY(Rong, Cao + 8);
-				setTextColor(10); cout << "Có     ";
-				setTextColor(14); cout << "Không";
+				setTextColor(10); cout << "Yes      ";
+				setTextColor(14); cout << "No";
 				DuaConTroVeDau();
 				ch = _getch();
 				if (ch == KB_RIGHT)
@@ -485,8 +460,8 @@ public:
 				break;
 			case 2:
 				gotoXY(Rong, Cao + 8);
-				setTextColor(14); cout << "Có     ";
-				setTextColor(10); cout << "Không";
+				setTextColor(14); cout << "Yes      ";
+				setTextColor(10); cout << "No";
 				DuaConTroVeDau();
 				ch = _getch();
 				if (ch == KB_LEFT)
@@ -506,9 +481,8 @@ private:
 	MENU M;
 	INTRODUCTION I;
 	HIGHSCORE H;
-	BACKGROUND B;
 	string Player;
-	int Score = 0;
+	int Score;
 	int DoKho;
 public:
 	void run()
@@ -549,19 +523,40 @@ public:
 				switch (chon)
 				{
 				case 0:
-					int PlayAgain;
 					int brk;
 				x1:
 					system("cls");
 					brk = PlayGame();
 					if (brk == 1)
 					{
-						//if (Score > highscore[0].Score) { GetScore(); }
-						M.Write("   Play again?", Rong + 2, Cao + 9, 14);
-						gotoXY(Rong + 3, Cao + 11);
-						cout << "1-Yes      2-No";
-						gotoXY(Rong + 10, Cao + 13);
-						cin >> PlayAgain;
+						M.Write("   Play again?", Rong + 2, Cao + 10, 14);
+						int PlayAgain = 1;
+						char ch = NULL;
+						while (ch != 13)
+						{
+							DuaConTroVeDau();
+							switch (PlayAgain)
+							{
+							case 1:
+								gotoXY(Rong+3, Cao + 12);
+								setTextColor(10); cout << "Yes          ";
+								setTextColor(14); cout << "No";
+								DuaConTroVeDau();
+								ch = _getch();
+								if (ch == KB_RIGHT)
+									PlayAgain = 2;
+								break;
+							case 2:
+								gotoXY(Rong+3, Cao + 12);
+								setTextColor(14); cout << "Yes          ";
+								setTextColor(10); cout << "No";
+								DuaConTroVeDau();
+								ch = _getch();
+								if (ch == KB_LEFT)
+									PlayAgain = 1;
+								break;
+							}
+						}
 						if (PlayAgain == 1) goto x1;
 					}
 					M.Ve_menu(Rong, Cao, chon, soluachon, st);
@@ -629,6 +624,8 @@ public:
 		int huong = 4;
 		//Khai báo + tự động khởi tạo background và con rắn
 		SNACK S;
+		BACKGROUND B;
+		Score = 0;
 		S.Move(); //Lần đầu tiên di chuyển tọa độ đầu và đuôi sẽ bị trùng. Nếu không chạy hàm move 1 lần trước thì hàm checkCollision sẽ true -> Game Over ngay từ đầu
 		//Ve khung và con rắn
 		S.Ve();
@@ -701,6 +698,7 @@ public:
 			//Xử lý Game Over trong chế độ không xuyên tường
 			if (xuyenTuong == 1) {
 				if (S.checkCollision()) {
+					Sleep(100); // cho dừng xíu rùi game over nha mn
 					system("cls");
 					endgame();
 					break;
@@ -708,6 +706,7 @@ public:
 			}
 			else {
 				if (S.checkCollision() || S.checkFrameConllision()) {
+					Sleep(100);
 					system("cls");
 					endgame();
 					break;
