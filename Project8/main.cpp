@@ -543,7 +543,7 @@ public:
 					int PlayAgain;
 					int brk;
 				x1:
-					S.reset();
+					S.Reset();
 					system("cls");
 					brk = PlayGame();
 					if (brk == 1)
