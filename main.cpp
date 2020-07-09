@@ -86,7 +86,7 @@ void Khung(int x1, int y1, int x2, int y2)
 	x2 += 2;
 	int x, y;
 	setTextColor(3);
-	for (x = x1; x <= x2; x+=2)
+	for (x = x1; x <= x2; x += 2)
 	{
 		gotoXY(x, y1); cout << "'.";
 		gotoXY(x, y2); cout << "'.";
@@ -141,7 +141,7 @@ void endgame() //just some screens for certain actions
 	if (Score > highscore[0].Score) {
 		tam = Score;
 	}
-	else {tam = highscore[0].Score;}
+	else (tam = highscore[0].Score);
 	cout << "                        Y O U R   S C O R E : " << Score << endl << endl;
 	cout << "                        H I G H   S C O R E : " << tam << endl;
 	cout << "" << endl << endl;
@@ -152,11 +152,24 @@ public:
 		int j = 0;
 		int i = 0;
 		setTextColor(15);
-		fstream outFile("Khung.txt");
-		char s[width];
-		while (!outFile.eof()) {
-			outFile.getline(s, width);
-			cout << s << endl;
+		for (i = 0; i <= width; i += 2) {
+			gotoXY(i, j);
+			cout << "= ";
+		}
+		i = width;
+		for (j = 1; j <= height; j++) {
+			gotoXY(i, j);
+			cout << "=";
+		}
+		i = 0;
+		for (j = 1; j <= height; j++) {
+			gotoXY(i, j);
+			cout << "=";
+		}
+		j = height;
+		for (i = 0; i <= width; i += 2) {
+			gotoXY(i, j);
+			cout << "= ";
 		}
 		setTextColor(14);
 
@@ -428,18 +441,18 @@ int PlayGame()
 	Khung(Rong - 2, Cao - 1, Rong + 50, Cao + 6);
 	gotoXY(Rong + 19, Cao);
 	cout << "Chọn chế độ";
-	gotoXY(Rong + 6, Cao+1);
+	gotoXY(Rong + 6, Cao + 1);
 	cout << " 1 - Classic\t\t2 - Modern\n";
-	gotoXY(Rong +24, Cao+2);
+	gotoXY(Rong + 24, Cao + 2);
 	setTextColor(15);
 	cin >> Tam;
 	if (Tam == 1) { xuyenTuong = 1; }
 	if (Tam == 2) { xuyenTuong = 0; }
 	//Write("\t\t    Chọn độ khó\n\t\t\t   1-Dễ\t2-Trung bình\t3-Khó\t 4-Siêu khó\n", Rong+3, Cao + 3, YELLOW);
 	setTextColor(14);
-	gotoXY(Rong + 19, Cao+3);
+	gotoXY(Rong + 19, Cao + 3);
 	cout << "Chọn độ khó";
-	gotoXY(Rong+1, Cao + 4);
+	gotoXY(Rong + 1, Cao + 4);
 	cout << "1 - Dễ";
 	gotoXY(Rong + 10, Cao + 4);
 	cout << "2 - Trung bình";
@@ -496,26 +509,26 @@ int PlayGame()
 		timeFood++;
 		if (_kbhit()) {
 			KB_CODE = _getch();
-			if(KB_CODE==KB_UP || KB_CODE=='W'|| KB_CODE=='w') {
+			if (KB_CODE == KB_UP || KB_CODE == 'W' || KB_CODE == 'w') {
 				huong = 1;
 			}
-			if(KB_CODE== KB_DOWN || KB_CODE== 'S'|| KB_CODE=='s') {
+			if (KB_CODE == KB_DOWN || KB_CODE == 'S' || KB_CODE == 's') {
 				huong = 2;
 			}
-			if(KB_CODE==KB_LEFT || KB_CODE== 'A'|| KB_CODE=='a') {
+			if (KB_CODE == KB_LEFT || KB_CODE == 'A' || KB_CODE == 'a') {
 				huong = 3;
 			}
-			if(KB_CODE== KB_RIGHT || KB_CODE== 'F'|| KB_CODE=='d') {
+			if (KB_CODE == KB_RIGHT || KB_CODE == 'F' || KB_CODE == 'd') {
 				huong = 4;
 			}
-			if(KB_CODE== KB_ESCAPE){return 0;}
-			if(KB_CODE==32)
-            {
-                B.veKhung();
+			if (KB_CODE == KB_ESCAPE) { return 0; }
+			if (KB_CODE == 32)
+			{
+				B.veKhung();
 				S.Ve();
 				cout << "\n\n\n\n\n\n\n\n\n\n\n\n";
 				system("pause");
-            }
+			}
 			S.setDirection(huong);
 		}
 		B.veKhung();
@@ -647,9 +660,9 @@ void run()
 				{
 					if (Score > highscore[0].Score) { GetScore(); }
 					Write("   Play again?", Rong + 2, Cao + 9, 14);
-					gotoXY(Rong+3, Cao + 11);
+					gotoXY(Rong + 3, Cao + 11);
 					cout << "1-Yes      2-No";
-					gotoXY(Rong +10, Cao + 13);
+					gotoXY(Rong + 10, Cao + 13);
 					cin >> PlayAgain;
 					if (PlayAgain == 1) goto x1;
 				}
