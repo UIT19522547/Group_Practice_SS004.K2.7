@@ -182,6 +182,16 @@ public:
 		ran[2].x = 12;
 		ran[2].y = 10;
 	}
+	void Reset(){
+		direction = 4;
+		doDai = 3;
+		ran[0].x = 10;
+		ran[0].y = 10;
+		ran[1].x = 11;
+		ran[1].y = 10;
+		ran[2].x = 12;
+		ran[2].y = 10;
+	}
 	void Ve() {
 		setTextColor(10);
 		for (int i = 0; i < doDai; i++) {
@@ -533,6 +543,7 @@ public:
 					int PlayAgain;
 					int brk;
 				x1:
+					S.reset();
 					system("cls");
 					brk = PlayGame();
 					if (brk == 1)
