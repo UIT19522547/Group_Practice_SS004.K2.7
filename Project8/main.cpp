@@ -21,9 +21,6 @@
 
 using namespace std;
 
-int Score = 0;
-int DoKho;
-
 struct HighScore
 {
 	string Name;
@@ -182,7 +179,7 @@ public:
 		ran[2].x = 12;
 		ran[2].y = 10;
 	}
-	void Reset(){
+	void Reset() {
 		direction = 4;
 		doDai = 3;
 		ran[0].x = 10;
@@ -315,62 +312,39 @@ public:
 		gotoXY(2, 2);
 		cout << "+ Hướng dẫn:";
 		string s;
-		gotoXY(2, 4);
-		cout << "  Bạn phải sử dụng các phím mũi tên hoặc các phím W,A,S,D";
-		gotoXY(2, 5);
-		cout << "để di chuyển rắn và thu thập thức ăn. Bạn thu được càng ";
-		gotoXY(2, 6);
-		cout << "nhiều thức ăn thì rắn sẽ càng dài ra và điểm số càng tăng.";
-		gotoXY(2, 7);
-		cout << "Bạn có thể bấm phím SPACE để tạm dừng.";
-		gotoXY(2, 8);
-		cout << "";
+		gotoXY(2, 4); cout << "  Bạn phải sử dụng các phím mũi tên hoặc các phím W,A,S,D";
+		gotoXY(2, 5); cout << "để di chuyển rắn và thu thập thức ăn. Bạn thu được càng ";
+		gotoXY(2, 6); cout << "nhiều thức ăn thì rắn sẽ càng dài ra và điểm số càng tăng.";
+		gotoXY(2, 7); cout << "Bạn có thể bấm phím SPACE để tạm dừng.";
+		gotoXY(2, 8); cout << "";
 		if (i == 1) //xuyên tường
 		{
-			gotoXY(2, 8);
-			cout << "  Ở chế độ xuyên tường, bạn sẽ thua cuộc nếu như để cho ";
-			gotoXY(2, 9);
-			cout << "rắn tự cắn vào bất kì phần nào trên thân nó.";
-			gotoXY(2, 11);
-			cout << "+ Chú thích:";
+			gotoXY(2, 8); cout << "  Ở chế độ xuyên tường, bạn sẽ thua cuộc nếu như để cho ";
+			gotoXY(2, 9); cout << "rắn tự cắn vào bất kì phần nào trên thân nó.";
+			gotoXY(2, 11); cout << "+ Chú thích:";
 			gotoXY(5, 13);
-			setTextColor(10);
-			cout << "OOOOO";
-			setTextColor(14);
-			cout << ": rắn";
+			setTextColor(10); cout << "OOOOO";
+			setTextColor(14); cout << ": rắn";
 			gotoXY(width / 2 + 5, 13);
-			setTextColor(12);
-			cout << "X";
-			setTextColor(14);
-			cout << ": thức ăn";
+			setTextColor(12); cout << "X";
+			setTextColor(14); cout << ": thức ăn";
 			gotoXY(5, 15);
 		}
 		else if (i == 0)
 		{
-			gotoXY(2, 8);
-			cout << "  Ở chế độ không xuyên tường, bạn sẽ thua cuộc nếu như";
-			gotoXY(2, 9);
-			cout << "để cho rắn va vào tường hoặc tự cắn vào bất kì phần nào";
-			gotoXY(2, 10);
-			cout << "trên thân nó.";
-			gotoXY(2, 12);
-			cout << "+ Chú thích:";
+			gotoXY(2, 8); cout << "  Ở chế độ không xuyên tường, bạn sẽ thua cuộc nếu như";
+			gotoXY(2, 9); cout << "để cho rắn va vào tường hoặc tự cắn vào bất kì phần nào";
+			gotoXY(2, 10); cout << "trên thân nó.";
+			gotoXY(2, 12); cout << "+ Chú thích:";
 			gotoXY(5, 14);
-			setTextColor(10);
-			cout << "OOOOO";
-			setTextColor(14);
-			cout << ": rắn";
+			setTextColor(10); cout << "OOOOO";
+			setTextColor(14); cout << ": rắn";
 			gotoXY(width / 2 + 5, 14);
-			setTextColor(12);
-			cout << "X";
-			setTextColor(14);
-			cout << ": thức ăn";
+			setTextColor(12); cout << "X";
+			setTextColor(14); cout << ": thức ăn";
 			gotoXY(5, 15);
-			setTextColor(7);
-			cout << "= = =";
-			setTextColor(14);
-			cout << ": tường";
-
+			setTextColor(7); cout << "= = =";
+			setTextColor(14); cout << ": tường";
 		}
 		DuaConTroVeDau();
 
@@ -389,37 +363,27 @@ public:
 			{
 			case 1:
 				gotoXY(9, 18);
-				setTextColor(10);
-				cout << "Back";
-				setTextColor(14);
+				setTextColor(10); cout << "Back";
 				gotoXY(42, 18);
-				cout << "Play";
+				setTextColor(14); cout << "Play";
 				DuaConTroVeDau();
 				ch = _getch();
 				if (ch == KB_RIGHT)
 					k = 2;
 				if (ch == 13)
-				{
-					//system("color 0F");
 					return 0;
-				}
 				break;
 			case 2:
 				gotoXY(9, 18);
-				cout << "Back";
+				setTextColor(14); cout << "Back";
 				gotoXY(42, 18);
-				setTextColor(10);
-				cout << "Play";
-				setTextColor(14);
+				setTextColor(10); cout << "Play";
 				DuaConTroVeDau();
 				ch = _getch();
 				if (ch == KB_LEFT)
 					k = 1;
 				if (ch == 13)
-				{
-					//system("color 0F");
 					return 1;
-				}
 				break;
 			}
 		}
@@ -431,14 +395,56 @@ class HIGHSCORE
 private:
 	HighScore highscore[5];
 public:
-	void SetEmpty()
+	HIGHSCORE()
+	{
+		ifstream in("highscore.txt");
+		if (is_empty(in))
+		{
+			Initialize();
+			in.close();
+			return;
+		}
+		int i = 0;
+		string Player, Score;
+		while(i<5)
+		{
+			getline(in, Player);
+			highscore[i].Name = Player;
+			getline(in, Score);
+			highscore[i].Score = stoi(Score);
+			i++;
+		}
+		in.close();
+	}
+	bool is_empty(std::ifstream& pFile)
+	{
+		return pFile.peek() == ifstream::traits_type::eof();
+	}
+	void setHighScore(string newName, int newScore)
+	{
+		if (newScore <= highscore[4].Score) return;
+		int i = 4;
+		while (newScore > highscore[i].Score && i>=0) i--;
+		i = i + 1;
+		for (int j = 4; j > i; j--)
+			highscore[j] = highscore[j-1];
+		highscore[i].Name = newName;
+		highscore[i].Score = newScore;
+
+		ofstream out("highscore.txt");
+		for (int i = 0; i < 5; i++)
+			out << highscore[i].Name << endl << highscore[i].Score << endl;
+		out.close();
+	}
+	
+	void Initialize()
 	{
 		ofstream out("highscore.txt");
 		for (int i = 0; i < 5; i++)
 		{
 			highscore[i].Name = "Player";
 			highscore[i].Score = 0;
-			out << highscore[i].Name << " - " << highscore[i].Score << endl;
+			out << highscore[i].Name << endl << highscore[i].Score << endl;
 		}
 		out.close();
 	}
@@ -448,49 +454,51 @@ public:
 		gotoXY(Rong - 2, Cao - 1);
 		ifstream in("highscore.txt");
 		int i = 0;
-		for (string str; getline(in, str);)
+		string Player, Score;
+		while (i < 5)
 		{
-			M.Write(str, Rong, Cao + i, 14);
+			getline(in, Player);
+			highscore[i].Name = Player;
+			getline(in, Score);
+			highscore[i].Score = stoi(Score);
+			gotoXY(Rong, Cao+i+1);
+			cout << highscore[i].Name << " - " << highscore[i].Score;
 			i++;
 		}
-		int Xoa;
-		M.Write("Xoá HighScore:\n\t\t\t 1-Có\t2-Không\n", Rong, Cao + 7, YELLOW);
-		cout << "\t\t\t"; cin >> Xoa;
-		if (Xoa == 1) { SetEmpty(); }
-		cout << "\n\n" << "\t\t\t";
-		in.close();
-	}
-	void GetScore()
-	{
-		ofstream out("highscore.txt");
-		//Write("Nhập tên: ", Rong + 25, Cao + 4, YELLOW);
-		gotoXY(Rong + 25, Cao + 4);
-		cout << "Nhap ten: ";
-
-		cin.ignore();
-		//if (highscore[0].Score == 0) { SetEmpty(); }
-		for (int i = 4; i > 0; i--)
+		int Xoa=1;
+		setTextColor(14);
+		gotoXY(Rong, Cao + 7); cout << "Xóa dữ liệu Highscore?";
+		char ch = NULL;
+		while (ch != 13)
 		{
-			highscore[i].Name = highscore[i - 1].Name;
-			highscore[i].Score = highscore[i - 1].Score;
-		}
-		getline(cin, highscore[0].Name);
-		highscore[0].Score = Score;
-		for (int i = 0; i < 5; i++)
-		{
-			if (highscore[i].Score == 0)
+			DuaConTroVeDau();
+			switch (Xoa)
 			{
-				highscore[i].Name = "Player";
-				highscore[i].Score = 0;
+			case 1:
+				gotoXY(Rong, Cao + 8);
+				setTextColor(10); cout << "Có     ";
+				setTextColor(14); cout << "Không";
+				DuaConTroVeDau();
+				ch = _getch();
+				if (ch == KB_RIGHT)
+					Xoa = 2;
+				break;
+			case 2:
+				gotoXY(Rong, Cao + 8);
+				setTextColor(14); cout << "Có     ";
+				setTextColor(10); cout << "Không";
+				DuaConTroVeDau();
+				ch = _getch();
+				if (ch == KB_LEFT)
+					Xoa = 1;
+				break;
 			}
-			out << highscore[i].Name << " - " << highscore[i].Score << endl;
 		}
-		out.close();
+		if (Xoa == 1) { Initialize(); }
+		in.close();
 	}
 	friend class GAME;
 };
-
-
 
 class GAME
 {
@@ -499,9 +507,10 @@ private:
 	INTRODUCTION I;
 	HIGHSCORE H;
 	BACKGROUND B;
-	SNACK S;
+	string Player;
+	int Score = 0;
+	int DoKho;
 public:
-
 	void run()
 	{
 		char ch;
@@ -543,7 +552,6 @@ public:
 					int PlayAgain;
 					int brk;
 				x1:
-					S.Reset();
 					system("cls");
 					brk = PlayGame();
 					if (brk == 1)
@@ -620,6 +628,7 @@ public:
 		//Mặc định hướng của con rắn ban đầu là đi qua phải
 		int huong = 4;
 		//Khai báo + tự động khởi tạo background và con rắn
+		SNACK S;
 		S.Move(); //Lần đầu tiên di chuyển tọa độ đầu và đuôi sẽ bị trùng. Nếu không chạy hàm move 1 lần trước thì hàm checkCollision sẽ true -> Game Over ngay từ đầu
 		//Ve khung và con rắn
 		S.Ve();
@@ -684,8 +693,9 @@ public:
 					S.Ve();
 			}
 			Score = S.GetDoDai() * DoKho * 10 - 3 * DoKho * 10;
-			M.Write("Score: ", 62, 10, YELLOW);
-			M.Write(to_string(Score), 69, 10, 15);
+			gotoXY(width + 3, height / 2);
+			setTextColor(14); cout << "Score: ";
+			setTextColor(7); cout << Score;
 			DuaConTroVeDau();
 			Sleep(speed);
 			//Xử lý Game Over trong chế độ không xuyên tường
@@ -718,16 +728,14 @@ public:
 		cout << "|   *  *  *  *******  *   *   * *           *    *    * *   *     * *     |" << endl;
 		cout << "|    *****  *       * *       * ******       ****      *    ***** *   *   |" << endl;
 		cout << " ------------------------------------------------------------------------- " << endl;
-		cout << "" << endl << endl;
+		cout << "" << endl;
 		setTextColor(7);
-		int tam;
-		if (Score > H.highscore[0].Score) {
-			tam = Score;
-		}
-		else (tam = H.highscore[0].Score);
 		cout << "                        Y O U R   S C O R E : " << Score << endl << endl;
-		cout << "                        H I G H   S C O R E : " << tam << endl;
-		cout << "" << endl << endl;
+		cout << "                        H I G H   S C O R E : " << H.highscore[0].Score << endl << endl;
+		gotoXY(Rong - 1, Cao + 7); 
+		setTextColor(14); cout << "Nhập tên: ";
+		setTextColor(7); cin >> Player;
+		H.setHighScore(Player, Score);
 	}
 };
 
