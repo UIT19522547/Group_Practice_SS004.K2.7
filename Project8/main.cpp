@@ -510,6 +510,9 @@ public:
 		st[0] = "New Game";
 		st[1] = "High Score";
 		st[2] = "Quit game";
+		string PA[2];
+		PA[0] = "YES";
+		PA[1] = "NO";
 		int  chon = 0/*lua chon hien tai*/, luuchon/*lua chon truoc do*/, soluachon = 3, ok = FALSE/*Nhan enter hay chua*/;
 		M.Ve_menu(Rong, Cao, chon, soluachon, st);
 		do
@@ -540,7 +543,6 @@ public:
 				switch (chon)
 				{
 				case 0:
-					int PlayAgain;
 					int brk;
 				x1:
 					S.Reset();
@@ -548,13 +550,34 @@ public:
 					brk = PlayGame();
 					if (brk == 1)
 					{
-						//if (Score > highscore[0].Score) { GetScore(); }
 						M.Write("   Play again?", Rong + 2, Cao + 9, 14);
-						gotoXY(Rong + 3, Cao + 11);
-						cout << "1-Yes      2-No";
-						gotoXY(Rong + 10, Cao + 13);
-						cin >> PlayAgain;
-						if (PlayAgain == 1) goto x1;
+						ch = 0;
+						//if (Score > H.highscore[0].Score) { H.GetScore(); }
+						int ChonPA = 0, LuuPA;
+						M.Write(PA[0], Rong + 1, Cao + 11, CYAN);
+						M.Write(PA[1], Rong + 16, Cao + 11, YELLOW);
+						while (ch != 13)
+						{
+							ch = _getch(); //Nhan mot phim
+							switch (ch)
+							{
+							case 75: //phim trai
+								LuuPA = ChonPA;
+								ChonPA--;
+								if (ChonPA < 0) ChonPA = 2 - 1;//Den cuoi thi bien dem quay lai lua chon dau
+								M.Write(PA[LuuPA], Rong + (LuuPA == 1 ? 16 : 1), Cao + 11, YELLOW);//lua chon truoc do doi lai thanh mau vang
+								M.Write(PA[ChonPA], Rong + (ChonPA == 1 ? 16 : 1), Cao + 11, CYAN);//lua chon dang chon se doi thanh mau xanh
+								break;
+							case 77://phim phai
+								LuuPA = ChonPA;
+								ChonPA++;
+								if (ChonPA == 2) ChonPA = 0;
+								M.Write(PA[LuuPA], Rong + (LuuPA == 1 ? 16 : 1), Cao + 11, YELLOW);
+								M.Write(PA[ChonPA], Rong + (ChonPA == 1 ? 16 : 1), Cao + 11, CYAN);
+								break;
+							}
+						}
+						if (ChonPA == 0) goto x1;
 					}
 					M.Ve_menu(Rong, Cao, chon, soluachon, st);
 					break;
@@ -578,40 +601,93 @@ public:
 		srand(time(NULL));
 		int KB_CODE = 0;
 		bool xuyenTuong = 0;
-		int Tam;
+		string CD[2];
+		string DK[4];
+		int Size[4];
+		Size[0] = 1;
+		Size[1] = 2;
+		Size[2] = 10;
+		Size[3] = 12;
+		CD[0] = "Classic";
+		CD[1] = "Morden";
+		DK[0] = "Dễ";
+		DK[1] = "Trung Bình";
+		DK[2] = "Khó";
+		DK[3] = "Siêu Khó";
 		//Vừa vào trò chơi yêu cầu người chơi chọn độ khó: dễ - trung bình - khó - siêu khó;
+		//Chọn chế độ chơi 
 		int speed = 0;
 		M.Khung(Rong - 2, Cao - 1, Rong + 50, Cao + 6);
-		gotoXY(Rong + 19, Cao);
+		gotoXY(Rong + 20, Cao);
 		cout << "Chọn chế độ";
-		gotoXY(Rong + 6, Cao + 1);
-		cout << " 1 - Classic\t\t2 - Modern\n";
-		gotoXY(Rong + 24, Cao + 2);
-		setTextColor(15);
-		cin >> Tam;
-		if (Tam == 1) { xuyenTuong = 1; }
-		if (Tam == 2) { xuyenTuong = 0; }
-		//Write("\t\t    Chọn độ khó\n\t\t\t   1-Dễ\t2-Trung bình\t3-Khó\t 4-Siêu khó\n", Rong+3, Cao + 3, YELLOW);
-		setTextColor(14);
+		int ChonCheDo = 0, ch=0, LuuCHeDo;
+		M.Write(CD[0], Rong+5, Cao+1, CYAN);
+		M.Write(CD[1], Rong+40, Cao+1, YELLOW);
+		while (ch != 13)
+		{
+			ch = _getch(); //Nhan mot phim
+			switch (ch)
+			{
+			case 75: //phim trai
+				LuuCHeDo = ChonCheDo;
+				ChonCheDo--;
+				if (ChonCheDo < 0) ChonCheDo = 2-1;//Den cuoi thi bien dem quay lai lua chon dau
+				M.Write(CD[LuuCHeDo], Rong + (LuuCHeDo==1?40:5), Cao + 1, YELLOW);//lua chon truoc do doi lai thanh mau vang
+				M.Write(CD[ChonCheDo], Rong + (ChonCheDo == 1 ? 40 : 5), Cao +1, CYAN);//lua chon dang chon se doi thanh mau xanh
+				break;
+			case 77://phim phai
+				LuuCHeDo = ChonCheDo;
+				ChonCheDo++;
+				if (ChonCheDo ==2) ChonCheDo = 0;
+				M.Write(CD[LuuCHeDo], Rong +(LuuCHeDo == 1 ? 40 : 5), Cao  + 1, YELLOW);
+				M.Write(CD[ChonCheDo], Rong + (ChonCheDo == 1 ? 40 : 5), Cao + 1, CYAN);
+				break;
+			case 27:
+				return 0;
+			}
+		} 
+		if (ChonCheDo == 0) { xuyenTuong = 1; }
+		if (ChonCheDo == 1) { xuyenTuong = 0; }
+		//Chọn độ khó
+		ch = 0;
+		int ChonDK = 0, LuuDK;
 		gotoXY(Rong + 19, Cao + 3);
 		cout << "Chọn độ khó";
-		gotoXY(Rong + 1, Cao + 4);
-		cout << "1 - Dễ";
-		gotoXY(Rong + 10, Cao + 4);
-		cout << "2 - Trung bình";
-		gotoXY(Rong + 27, Cao + 4);
-		cout << "3 - Khó";
-		gotoXY(Rong + 37, Cao + 4);
-		cout << "4 - Siêu khó";
-		gotoXY(Rong + 24, Cao + 5);
-		setTextColor(15);
-		cin >> DoKho;
-		switch (DoKho)
+		for (int i = 0; i < 4; i++)
 		{
-		case 1: speed = 250; break;
-		case 2: speed = 100; break;
-		case 3: speed = 50; break;
-		case 4: speed = 0; break;
+			if (i == 0) M.Write(DK[i], Rong + 1, Cao + 5, CYAN);
+			//else if (i == 3) M.Write(DK[i], Rong + 44, Cao + 5, YELLOW);
+			else M.Write(DK[i], Rong + Size[i] + i*10, Cao + 5, YELLOW);
+		}
+		while (ch != 13)
+		{
+			ch = _getch(); //Nhan mot phim
+			switch (ch)
+			{
+			case 75: //phim trai
+				LuuDK = ChonDK;
+				ChonDK--;
+				if (ChonDK < 0) ChonDK = 3;
+				M.Write(DK[LuuDK], Rong + Size[LuuDK ] + LuuDK * 10, Cao + 5, YELLOW);
+				M.Write(DK[ChonDK], Rong + Size[ChonDK ] + ChonDK * 10, Cao + 5, CYAN);
+				break;
+			case 77://phim phai
+				LuuDK = ChonDK;
+				ChonDK++;
+				if (ChonDK == 4) ChonDK = 0;
+				M.Write(DK[LuuDK], Rong + Size[LuuDK] +  LuuDK * 10, Cao + 5, YELLOW);
+				M.Write(DK[ChonDK], Rong + Size[ChonDK ] + ChonDK * 10, Cao + 5, CYAN);
+				break;
+			case 27:
+				return 0;
+			}
+		}
+		switch (ChonDK)
+		{
+		case 0: speed = 250; break;
+		case 1: speed = 100; break;
+		case 2: speed = 50; break;
+		case 3: speed = 0; break;
 		}
 		;
 		int t;
@@ -683,7 +759,7 @@ public:
 				else
 					S.Ve();
 			}
-			Score = S.GetDoDai() * DoKho * 10 - 3 * DoKho * 10;
+			Score = S.GetDoDai() * (ChonDK+1) * 10 - 3 * (ChonDK+1) * 10;
 			M.Write("Score: ", 62, 10, YELLOW);
 			M.Write(to_string(Score), 69, 10, 15);
 			DuaConTroVeDau();
