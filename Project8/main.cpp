@@ -21,15 +21,11 @@
 
 using namespace std;
 
-int Score = 0;
-int DoKho;
-
 struct HighScore
 {
 	string Name;
 	int Score;
 };
-
 struct Point {
 	int x;
 	int y;
@@ -42,19 +38,12 @@ void XoaManHinh() {
 	COORD homeCoords = { 0,0 };
 	hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	if (hStdOut == INVALID_HANDLE_VALUE) return;
-
 	//Lấy số lượng ô trong bộ nhớ đệm hiện tại
-	if (!GetConsoleScreenBufferInfo(hStdOut, &csbi))
-		cellCount = csbi.dwSize.X * csbi.dwSize.Y;
-
+	if (!GetConsoleScreenBufferInfo(hStdOut, &csbi))cellCount = csbi.dwSize.X * csbi.dwSize.Y;
 	//Lấp đầy bộ nhớ đệm với khoảng trắng
-	if (!FillConsoleOutputCharacter(hStdOut, (TCHAR)' ',
-		cellCount, homeCoords, &count)) return;
-
+	if (!FillConsoleOutputCharacter(hStdOut, (TCHAR)' ',cellCount, homeCoords, &count)) return;
 	//Lấp đầy bộ nhớ đệm với màu và thuộc tính hiện tại
-	if (!FillConsoleOutputAttribute(hStdOut, csbi.wAttributes
-		, cellCount, homeCoords, &count)) return;
-
+	if (!FillConsoleOutputAttribute(hStdOut, csbi.wAttributes, cellCount, homeCoords, &count)) return;
 	//Di chuyển con trỏ về nhà
 	SetConsoleCursorPosition(hStdOut, homeCoords);
 }
@@ -74,7 +63,6 @@ void DuaConTroVeDau()
 	COORD pos = { 0, 0 };
 	SetConsoleCursorPosition(hConsole, pos);
 }
-
 
 class MENU
 {
@@ -165,44 +153,50 @@ public:
 	void drawFood(Point& F) {
 		gotoXY(F.x, F.y);
 		setTextColor(12);
-		cout << "*";
+		cout << "+";
 		setTextColor(14);
 		DuaConTroVeDau();
 	}
 	void setChuongNgaiVat(int doKho) {
 		srand(time(0));
 		switch (doKho) {
-			case 0: {
-				sl_chuongNgaiVat = 5;
-				break;
-			}
-			case 1: {
-				sl_chuongNgaiVat = 10;
-				break;
-			}
-			case 2: {
-				sl_chuongNgaiVat = 15;
-				break;
-			}
-			default: {
-				sl_chuongNgaiVat = 20;
-				break;
-			}
+		case 0: {
+			sl_chuongNgaiVat = 5;
+			break;
+		}
+		case 1: {
+			sl_chuongNgaiVat = 10;
+			break;
+		}
+		case 2: {
+			sl_chuongNgaiVat = 15;
+			break;
+		}
+		default: {
+			sl_chuongNgaiVat = 20;
+			break;
+		}
 		}
 		for (int i = 0; i < sl_chuongNgaiVat; i++) {
 			do {
 				chuongNgaiVat[i].x = 1 + rand() % 59;
 				chuongNgaiVat[i].y = 1 + rand() % 19;
-			} while ((chuongNgaiVat[i].x == 10 && chuongNgaiVat[i].y == 10) ||
-				(chuongNgaiVat[i].x == 10 && chuongNgaiVat[i].y == 11) ||
-				(chuongNgaiVat[i].x == 10 && chuongNgaiVat[i].y == 12));
+			} while (chuongNgaiVat[i].x == 10 && (chuongNgaiVat[i].y == 10
+				|| chuongNgaiVat[i].y == 11 || chuongNgaiVat[i].y == 12 
+				|| chuongNgaiVat[i].y == 13 || chuongNgaiVat[i].y == 14
+				|| chuongNgaiVat[i].y == 15 || chuongNgaiVat[i].y == 16
+				|| chuongNgaiVat[i].y == 17 || chuongNgaiVat[i].y == 18
+				|| chuongNgaiVat[i].y == 19 || chuongNgaiVat[i].y == 20
+				|| chuongNgaiVat[i].y == 21 || chuongNgaiVat[i].y == 22));
 		}
 	}
 	void drawChuongNgaiVat() {
+		setTextColor(3);
 		for (int i = 0; i < sl_chuongNgaiVat; i++) {
 			gotoXY(chuongNgaiVat[i].x, chuongNgaiVat[i].y);
 			cout << "X";
 		}
+		setTextColor(14);
 	}
 	bool checkObstaclesCollision(Point headSnack) {
 		for (int i = 0; i < sl_chuongNgaiVat; i++) {
@@ -343,99 +337,63 @@ public:
 		setTextColor(3);
 		for (int j = 1; j < height; j += 2)
 		{
-			gotoXY(0, j);
-			cout << "/";
-			gotoXY(0, j + 1);
-			cout << "\\";
-			gotoXY(width, j);
-			cout << "/";
-			gotoXY(width, j - 1);
-			cout << "\\";
+			gotoXY(0, j); cout << "/";
+			gotoXY(0, j + 1); cout << "\\";
+			gotoXY(width, j); cout << "/";
+			gotoXY(width, j - 1); cout << "\\";
 		}
 		for (int i = 0; i < width; i++)
 		{
-			gotoXY(i, height);
-			cout << "-";
+			gotoXY(i, height);cout << "-";
 		}
 		for (int i = 1; i <= width; i++)
 		{
-			gotoXY(i, 0);
-			cout << "-";
+			gotoXY(i, 0); cout << "-";
 		}
 		setTextColor(14);
 		gotoXY(2, 2);
 		cout << "+ Hướng dẫn:";
 		string s;
-		gotoXY(2, 4);
-		cout << "  Bạn phải sử dụng các phím mũi tên hoặc các phím W,A,S,D";
-		gotoXY(2, 5);
-		cout << "để di chuyển rắn và thu thập thức ăn. Bạn thu được càng ";
-		gotoXY(2, 6);
-		cout << "nhiều thức ăn thì rắn sẽ càng dài ra và điểm số càng tăng.";
-		gotoXY(2, 7);
-		cout << "Bạn có thể bấm phím SPACE để tạm dừng.";
-		gotoXY(2, 8);
-		cout << "";
+		gotoXY(2, 4); cout << "  Bạn phải sử dụng các phím mũi tên hoặc các phím W,A,S,D";
+		gotoXY(2, 5); cout << "để di chuyển rắn và thu thập thức ăn. Bạn thu được càng ";
+		gotoXY(2, 6); cout << "nhiều thức ăn thì rắn sẽ càng dài ra và điểm số càng tăng.";
+		gotoXY(2, 7); cout << "Bạn có thể bấm phím SPACE để tạm dừng.";
 		if (i == 1) //xuyên tường
 		{
-			gotoXY(2, 8);
-			cout << "  Ở chế độ xuyên tường, bạn sẽ thua cuộc nếu như để cho ";
-			gotoXY(2, 9);
-			cout << "rắn tự cắn vào bất kì phần nào trên thân nó.";
-			gotoXY(2, 11);
-			cout << "+ Chú thích:";
+			gotoXY(2, 8); cout << "  Ở chế độ Classic, bạn sẽ thua cuộc nếu như để cho rắn ";
+			gotoXY(2, 9); cout << "tự cắn vào bất kì phần nào trên thân nó.";
+			gotoXY(2, 11); cout << "+ Chú thích:";
 			gotoXY(5, 13);
-			setTextColor(10);
-			cout << "OOOOO";
-			setTextColor(14);
-			cout << ": rắn";
+			setTextColor(10);cout << "OOOOO";
+			setTextColor(14);cout << ": rắn";
 			gotoXY(width / 2 + 5, 13);
-			setTextColor(12);
-			cout << "*";
-			setTextColor(14);
-			cout << ": thức ăn";
-			gotoXY(width / 2 + 5, 15);
-			setTextColor(12);
-			cout << "X";
-			setTextColor(14);
-			cout << ": chướng ngại vật";
+			setTextColor(12); cout << "+";
+			setTextColor(14); cout << ": thức ăn";
+			gotoXY(5, 15);
+			setTextColor(3); cout << "X";
+			setTextColor(14); cout << ": chướng ngại vật";
 			gotoXY(5, 15);
 		}
 		else if (i == 0)
 		{
-			gotoXY(2, 8);
-			cout << "  Ở chế độ không xuyên tường, bạn sẽ thua cuộc nếu như";
-			gotoXY(2, 9);
-			cout << "để cho rắn va vào tường hoặc tự cắn vào bất kì phần nào";
-			gotoXY(2, 10);
-			cout << "trên thân nó.";
-			gotoXY(2, 12);
-			cout << "+ Chú thích:";
+			gotoXY(2, 8); cout << "  Ở chế độ Modern, bạn sẽ thua cuộc nếu như để cho rắn va";
+			gotoXY(2, 9); cout << "vào tường hoặc tự cắn vào bất kì phần nào trên thân nó.";
+			gotoXY(2, 10); cout << "";
+			gotoXY(2, 12); cout << "+ Chú thích:";
 			gotoXY(5, 14);
-			setTextColor(10);
-			cout << "OOOOO";
-			setTextColor(14);
-			cout << ": rắn";
+			setTextColor(10); cout << "OOOOO";
+			setTextColor(14); cout << ": rắn";
 			gotoXY(width / 2 + 5, 14);
-			setTextColor(12);
-			cout << "*";
-			setTextColor(14);
-			cout << ": thức ăn";
-			gotoXY(5, 15);
-			setTextColor(7);
-			cout << "= = =";
-			setTextColor(14);
-			cout << ": tường";
+			setTextColor(12); cout << "+";
+			setTextColor(14); cout << ": thức ăn";
 			gotoXY(width / 2 + 5, 15);
-			setTextColor(12);
-			cout << "X";
-			setTextColor(14);
-			cout << ": chướng ngại vật";
-
+			setTextColor(15); cout << "= = =";
+			setTextColor(14); cout << ": tường";
+			gotoXY(5, 15);
+			setTextColor(3); cout << "X";
+			setTextColor(14); cout << ": chướng ngại vật";
 		}
 		DuaConTroVeDau();
-
-
 	}
 	int XuatChuThich(bool i) // trả về 1 là zô hàm play game, 0 là quay về menu
 	{
@@ -450,20 +408,15 @@ public:
 			{
 			case 1:
 				gotoXY(9, 18);
-				setTextColor(10);
-				cout << "Back";
+				setTextColor(10); cout << "Back";
 				setTextColor(14);
-				gotoXY(42, 18);
-				cout << "Play";
+				gotoXY(42, 18); cout << "Play";
 				DuaConTroVeDau();
 				ch = _getch();
-				if (ch == KB_RIGHT)
+				if (ch == KB_RIGHT|| ch ==KB_LEFT)
 					k = 2;
 				if (ch == 13)
-				{
-					//system("color 0F");
 					return 0;
-				}
 				break;
 			case 2:
 				gotoXY(9, 18);
@@ -474,13 +427,10 @@ public:
 				setTextColor(14);
 				DuaConTroVeDau();
 				ch = _getch();
-				if (ch == KB_LEFT)
+				if (ch == KB_LEFT||ch==KB_RIGHT)
 					k = 1;
 				if (ch == 13)
-				{
-					//system("color 0F");
 					return 1;
-				}
 				break;
 			}
 		}
@@ -492,14 +442,56 @@ class HIGHSCORE
 private:
 	HighScore highscore[5];
 public:
-	void SetEmpty()
+	HIGHSCORE()
+	{
+		ifstream in("highscore.txt");
+		if (is_empty(in))
+		{
+			Initialize();
+			in.close();
+			return;
+		}
+		int i = 0;
+		string Player, Score;
+		while (i < 5)
+		{
+			getline(in, Player);
+			highscore[i].Name = Player;
+			getline(in, Score);
+			highscore[i].Score = stoi(Score);
+			i++;
+		}
+		in.close();
+	}
+	bool is_empty(std::ifstream& pFile)
+	{
+		return pFile.peek() == ifstream::traits_type::eof();
+	}
+	void setHighScore(string newName, int newScore)
+	{
+		if (newScore <= highscore[4].Score) return;
+		int i = 4;
+		while (newScore > highscore[i].Score && i >= 0) i--;
+		i = i + 1;
+		for (int j = 4; j > i; j--)
+			highscore[j] = highscore[j - 1];
+		highscore[i].Name = newName;
+		highscore[i].Score = newScore;
+
+		ofstream out("highscore.txt");
+		for (int i = 0; i < 5; i++)
+			out << highscore[i].Name << endl << highscore[i].Score << endl;
+		out.close();
+	}
+
+	void Initialize()
 	{
 		ofstream out("highscore.txt");
 		for (int i = 0; i < 5; i++)
 		{
 			highscore[i].Name = "Player";
 			highscore[i].Score = 0;
-			out << highscore[i].Name << " - " << highscore[i].Score << endl;
+			out << highscore[i].Name << endl << highscore[i].Score << endl;
 		}
 		out.close();
 	}
@@ -509,44 +501,48 @@ public:
 		gotoXY(Rong - 2, Cao - 1);
 		ifstream in("highscore.txt");
 		int i = 0;
-		for (string str; getline(in, str);)
+		string Player, Score;
+		while (i < 5)
 		{
-			M.Write(str, Rong, Cao + i, 14);
+			getline(in, Player);
+			highscore[i].Name = Player;
+			getline(in, Score);
+			highscore[i].Score = stoi(Score);
+			gotoXY(Rong, Cao + i + 1);
+			cout << highscore[i].Name << " - " << highscore[i].Score;
 			i++;
 		}
-		int Xoa;
-		M.Write("Xoá HighScore:\n\t\t\t 1-Có\t2-Không\n", Rong, Cao + 7, YELLOW);
-		cout << "\t\t\t"; cin >> Xoa;
-		if (Xoa == 1) { SetEmpty(); }
-		cout << "\n\n" << "\t\t\t";
-		in.close();
-	}
-	void GetScore()
-	{
-		ofstream out("highscore.txt");
-		//Write("Nhập tên: ", Rong + 25, Cao + 4, YELLOW);
-		gotoXY(Rong + 25, Cao + 4);
-		cout << "Nhap ten: ";
-
-		cin.ignore();
-		//if (highscore[0].Score == 0) { SetEmpty(); }
-		for (int i = 4; i > 0; i--)
+		int Xoa = 2;
+		setTextColor(14);
+		gotoXY(Rong, Cao + 7); cout << "Delete highscore data?";
+		char ch = NULL;
+		while (ch != 13)
 		{
-			highscore[i].Name = highscore[i - 1].Name;
-			highscore[i].Score = highscore[i - 1].Score;
-		}
-		getline(cin, highscore[0].Name);
-		highscore[0].Score = Score;
-		for (int i = 0; i < 5; i++)
-		{
-			if (highscore[i].Score == 0)
+			DuaConTroVeDau();
+			switch (Xoa)
 			{
-				highscore[i].Name = "Player";
-				highscore[i].Score = 0;
+			case 1:
+				gotoXY(Rong, Cao + 8);
+				setTextColor(10); cout << "Yes      ";
+				setTextColor(14); cout << "No";
+				DuaConTroVeDau();
+				ch = _getch();
+				if (ch == KB_RIGHT)
+					Xoa = 2;
+				break;
+			case 2:
+				gotoXY(Rong, Cao + 8);
+				setTextColor(14); cout << "Yes      ";
+				setTextColor(10); cout << "No";
+				DuaConTroVeDau();
+				ch = _getch();
+				if (ch == KB_LEFT)
+					Xoa = 1;
+				break;
 			}
-			out << highscore[i].Name << " - " << highscore[i].Score << endl;
 		}
-		out.close();
+		if (Xoa == 1) { Initialize(); }
+		in.close();
 	}
 	friend class GAME;
 };
@@ -559,6 +555,8 @@ private:
 	HIGHSCORE H;
 	BACKGROUND B;
 	SNACK S;
+	int Score;
+	int DoKho;
 public:
 
 	void run()
@@ -611,12 +609,12 @@ public:
 					{
 						M.Write("   Play again?", Rong + 2, Cao + 9, 14);
 						ch = 0;
-						//if (Score > H.highscore[0].Score) { H.GetScore(); }
 						int ChonPA = 0, LuuPA;
-						M.Write(PA[0], Rong + 1, Cao + 11, CYAN);
+						M.Write(PA[0], Rong + 2, Cao + 11, CYAN);
 						M.Write(PA[1], Rong + 16, Cao + 11, YELLOW);
 						while (ch != 13)
 						{
+							DuaConTroVeDau();
 							ch = _getch(); //Nhan mot phim
 							switch (ch)
 							{
@@ -624,15 +622,15 @@ public:
 								LuuPA = ChonPA;
 								ChonPA--;
 								if (ChonPA < 0) ChonPA = 2 - 1;//Den cuoi thi bien dem quay lai lua chon dau
-								M.Write(PA[LuuPA], Rong + (LuuPA == 1 ? 16 : 1), Cao + 11, YELLOW);//lua chon truoc do doi lai thanh mau vang
-								M.Write(PA[ChonPA], Rong + (ChonPA == 1 ? 16 : 1), Cao + 11, CYAN);//lua chon dang chon se doi thanh mau xanh
+								M.Write(PA[LuuPA], Rong + (LuuPA == 1 ? 16 : 2), Cao + 11, YELLOW);//lua chon truoc do doi lai thanh mau vang
+								M.Write(PA[ChonPA], Rong + (ChonPA == 1 ? 16 : 2), Cao + 11, CYAN);//lua chon dang chon se doi thanh mau xanh
 								break;
 							case 77://phim phai
 								LuuPA = ChonPA;
 								ChonPA++;
 								if (ChonPA == 2) ChonPA = 0;
-								M.Write(PA[LuuPA], Rong + (LuuPA == 1 ? 16 : 1), Cao + 11, YELLOW);
-								M.Write(PA[ChonPA], Rong + (ChonPA == 1 ? 16 : 1), Cao + 11, CYAN);
+								M.Write(PA[LuuPA], Rong + (LuuPA == 1 ? 16 : 2), Cao + 11, YELLOW);
+								M.Write(PA[ChonPA], Rong + (ChonPA == 1 ? 16 : 2), Cao + 11, CYAN);
 								break;
 							}
 						}
@@ -684,6 +682,7 @@ public:
 		M.Write(CD[1], Rong + 40, Cao + 1, YELLOW);
 		while (ch != 13)
 		{
+			DuaConTroVeDau();
 			ch = _getch(); //Nhan mot phim
 			switch (ch)
 			{
@@ -710,7 +709,8 @@ public:
 		//Chọn độ khó
 		ch = 0;
 		int ChonDK = 0, LuuDK;
-		gotoXY(Rong + 19, Cao + 3);
+		gotoXY(Rong + 20, Cao + 3);
+		setTextColor(14);
 		cout << "Chọn độ khó";
 		for (int i = 0; i < 4; i++)
 		{
@@ -720,6 +720,7 @@ public:
 		}
 		while (ch != 13)
 		{
+			DuaConTroVeDau();
 			ch = _getch(); //Nhan mot phim
 			switch (ch)
 			{
@@ -867,16 +868,15 @@ public:
 		cout << "|   *  *  *  *******  *   *   * *           *    *    * *   *     * *     |" << endl;
 		cout << "|    *****  *       * *       * ******       ****      *    ***** *   *   |" << endl;
 		cout << " ------------------------------------------------------------------------- " << endl;
-		cout << "" << endl << endl;
+		cout << "" << endl;
 		setTextColor(7);
-		int tam;
-		if (Score > H.highscore[0].Score) {
-			tam = Score;
-		}
-		else (tam = H.highscore[0].Score);
 		cout << "                        Y O U R   S C O R E : " << Score << endl << endl;
-		cout << "                        H I G H   S C O R E : " << tam << endl;
-		cout << "" << endl << endl;
+		cout << "                        H I G H   S C O R E : " << H.highscore[0].Score << endl << endl;
+		string Player;
+		gotoXY(Rong - 1, Cao + 7);
+		setTextColor(14); cout << "Nhập tên: ";
+		setTextColor(7); cin >> Player;
+		H.setHighScore(Player, Score);
 	}
 };
 
