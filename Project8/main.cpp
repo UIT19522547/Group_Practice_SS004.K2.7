@@ -41,7 +41,7 @@ void XoaManHinh() {
 	//Lấy số lượng ô trong bộ nhớ đệm hiện tại
 	if (!GetConsoleScreenBufferInfo(hStdOut, &csbi))cellCount = csbi.dwSize.X * csbi.dwSize.Y;
 	//Lấp đầy bộ nhớ đệm với khoảng trắng
-	if (!FillConsoleOutputCharacter(hStdOut, (TCHAR)' ',cellCount, homeCoords, &count)) return;
+	if (!FillConsoleOutputCharacter(hStdOut, (TCHAR)' ', cellCount, homeCoords, &count)) return;
 	//Lấp đầy bộ nhớ đệm với màu và thuộc tính hiện tại
 	if (!FillConsoleOutputAttribute(hStdOut, csbi.wAttributes, cellCount, homeCoords, &count)) return;
 	//Di chuyển con trỏ về nhà
@@ -131,6 +131,7 @@ public:
 		for (int i = 0; i <= height - 2; i++)
 			khung << "=                                                           =" << endl;
 		khung << "= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =" << endl;
+
 		khung.close();
 	}
 	void veKhung() {
@@ -138,6 +139,7 @@ public:
 		khung.open("khung.txt", ios::in);
 		char str[62];
 		string s;
+		setTextColor(15);
 		for (int i = 0; i <= height; i++) {
 			khung.getline(str, 62);
 			s = str;
@@ -178,7 +180,7 @@ public:
 				chuongNgaiVat[i].x = 1 + rand() % 59;
 				chuongNgaiVat[i].y = 1 + rand() % 19;
 			} while (chuongNgaiVat[i].x == 10 && (chuongNgaiVat[i].y == 10
-				|| chuongNgaiVat[i].y == 11 || chuongNgaiVat[i].y == 12 
+				|| chuongNgaiVat[i].y == 11 || chuongNgaiVat[i].y == 12
 				|| chuongNgaiVat[i].y == 13 || chuongNgaiVat[i].y == 14
 				|| chuongNgaiVat[i].y == 15 || chuongNgaiVat[i].y == 16
 				|| chuongNgaiVat[i].y == 17 || chuongNgaiVat[i].y == 18
@@ -303,18 +305,14 @@ public:
 	}
 	void goThroughWall() {
 		//di chuyển đầu rắn sang phía bên không gian ngược lại
-		if (direction == 1) {
+		if (ran[0].y==0)
 			ran[0].y = height - 1;
-		}
-		else if (direction == 2) {
+		else if (ran[0].y == height) 
 			ran[0].y = 1;
-		}
-		else if (direction == 3) {
+		else if (ran[0].x == 0)
 			ran[0].x = width - 1;
-		}
-		else {
-			ran[0].x = 1;
-		}
+		else if(ran[0].x == width)
+			ran[0].x = 1;	
 	}
 	int GetDoDai()
 	{
@@ -340,7 +338,7 @@ public:
 		}
 		for (int i = 0; i < width; i++)
 		{
-			gotoXY(i, height);cout << "-";
+			gotoXY(i, height); cout << "-";
 		}
 		for (int i = 1; i <= width; i++)
 		{
@@ -360,8 +358,8 @@ public:
 			gotoXY(2, 9); cout << "tự cắn vào bất kì phần nào trên thân nó.";
 			gotoXY(2, 11); cout << "+ Chú thích:";
 			gotoXY(5, 13);
-			setTextColor(10);cout << "OOOOO";
-			setTextColor(14);cout << ": rắn";
+			setTextColor(10); cout << "OOOOO";
+			setTextColor(14); cout << ": rắn";
 			gotoXY(width / 2 + 5, 13);
 			setTextColor(12); cout << "+";
 			setTextColor(14); cout << ": thức ăn";
@@ -409,7 +407,7 @@ public:
 				gotoXY(42, 18); cout << "Play";
 				DuaConTroVeDau();
 				ch = _getch();
-				if (ch == KB_RIGHT|| ch ==KB_LEFT)
+				if (ch == KB_RIGHT || ch == KB_LEFT)
 					k = 2;
 				if (ch == 13)
 					return 0;
@@ -423,7 +421,7 @@ public:
 				setTextColor(14);
 				DuaConTroVeDau();
 				ch = _getch();
-				if (ch == KB_LEFT||ch==KB_RIGHT)
+				if (ch == KB_LEFT || ch == KB_RIGHT)
 					k = 1;
 				if (ch == 13)
 					return 1;
@@ -759,7 +757,6 @@ public:
 		B.drawChuongNgaiVat();
 		S.Ve();
 		//Khai báo và khởi tạo các tham số để quản lý con mồi
-		long long timeFood = 0;
 		bool FoodAppear = true;
 		bool ateFood = 1;
 		Point foodPoint;
@@ -773,31 +770,34 @@ public:
 			system("cls");
 			if (_kbhit()) {
 				KB_CODE = _getch();
+				KB_CODE = _getch();
 				if (KB_CODE == KB_UP || KB_CODE == 'W' || KB_CODE == 'w') {
 					huong = 1;
 				}
-				if (KB_CODE == KB_DOWN || KB_CODE == 'S' || KB_CODE == 's') {
+				else if (KB_CODE == KB_DOWN || KB_CODE == 'S' || KB_CODE == 's') {
 					huong = 2;
 				}
-				if (KB_CODE == KB_LEFT || KB_CODE == 'A' || KB_CODE == 'a') {
+				else if (KB_CODE == KB_LEFT || KB_CODE == 'A' || KB_CODE == 'a') {
 					huong = 3;
 				}
-				if (KB_CODE == KB_RIGHT || KB_CODE == 'F' || KB_CODE == 'd') {
+				else if (KB_CODE == KB_RIGHT || KB_CODE == 'F' || KB_CODE == 'd') {
 					huong = 4;
 				}
-				if (KB_CODE == KB_ESCAPE) { return 0; }
-				if (KB_CODE == 32)
+				else if (KB_CODE == KB_ESCAPE) { return 0; }
+				else if (KB_CODE == 32)
 				{
 					B.veKhung();
 					S.Ve();
 					B.drawChuongNgaiVat();
 					cout << "\n\n\n\n\n\n\n\n\n\n\n\n";
 					system("pause");
+					goto x2;
 				}
 				S.setDirection(huong);
 			}
 			B.veKhung();
 			B.drawChuongNgaiVat();
+			x2:
 			if (S.ateFood(foodPoint)) {
 				Point T = foodPoint;
 				do {
@@ -808,8 +808,8 @@ public:
 				S.growLength(T);
 			}
 			else B.drawFood(foodPoint);
-			timeFood++;
 			if (xuyenTuong == 1 && S.checkFrameConllision()) {
+				
 				S.goThroughWall();
 				if (B.checkObstaclesCollision(S.getHeadSnack())) {
 					system("cls");
@@ -817,6 +817,7 @@ public:
 					break;
 				}
 				S.Ve();
+				
 			}
 			else {
 				S.Move();
@@ -825,9 +826,7 @@ public:
 					endgame();
 					break;
 				}
-				if (S.checkFrameConllision());
-				else
-					S.Ve();
+				S.Ve();
 			}
 			Score = S.GetDoDai() * (ChonDK + 1) * 10 - 3 * (ChonDK + 1) * 10;
 			M.Write("Score: ", 62, 10, YELLOW);
@@ -878,6 +877,9 @@ public:
 
 int main()
 {
+	cin.tie(0);
+	cout.tie(0);
+	ios_base::sync_with_stdio(false);
 	GAME G;
 	SetConsoleOutputCP(65001);
 	G.run();
