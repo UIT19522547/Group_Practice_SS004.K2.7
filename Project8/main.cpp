@@ -741,10 +741,10 @@ public:
 		}
 		switch (ChonDK)
 		{
-		case 0: speed = 250; break;
+		case 0: speed = 150; break;
 		case 1: speed = 100; break;
-		case 2: speed = 50; break;
-		case 3: speed = 0; break;
+		case 2: speed = 75; break;
+		case 3: speed = 50; break;
 		}
 		;
 		B.setChuongNgaiVat(ChonDK);
@@ -770,7 +770,7 @@ public:
 		//Bắt đầu game
 		while (KB_CODE != KB_ESCAPE) {
 			XoaManHinh();
-			system("cls");
+			//system("cls");
 			if (_kbhit()) {
 				KB_CODE = _getch();
 				if (KB_CODE == 32)
