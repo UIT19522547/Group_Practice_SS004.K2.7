@@ -135,7 +135,7 @@ public:
 		khung.close();
 	}
 	void veKhung() { // lấy khung từ tệp khung.txt và vẽ vào game
-		fstream khung; 
+		fstream khung;
 		khung.open("khung.txt", ios::in);
 		char str[62];
 		string s;
@@ -243,7 +243,7 @@ public:
 		setTextColor(14);
 	}
 	// di chuyển rắn theo hướng hiện tại
-	void Move() { 
+	void Move() {
 		for (int i = doDai - 1; i > 0; i--) {
 			ran[i] = ran[i - 1];
 		}
@@ -307,15 +307,15 @@ public:
 		ran[0] = F;
 	}
 	//di chuyển đầu rắn sang phía bên không gian ngược lại
-	void goThroughWall() {	
-		if (ran[0].y==0)
+	void goThroughWall() {
+		if (ran[0].y == 0)
 			ran[0].y = height - 1;
-		else if (ran[0].y == height) 
+		else if (ran[0].y == height)
 			ran[0].y = 1;
 		else if (ran[0].x == 0)
 			ran[0].x = width - 1;
-		else if(ran[0].x == width)
-			ran[0].x = 1;	
+		else if (ran[0].x == width)
+			ran[0].x = 1;
 	}
 	int GetDoDai()
 	{
@@ -777,18 +777,22 @@ public:
 				{
 					B.veKhung();
 					S.Ve();
-					B.drawChuongNgaiVat();
 					cout << "\n\n\n\n\n\n\n\n\n\n\n\n";
+					B.drawChuongNgaiVat();
+					B.drawFood(foodPoint);
+					M.Write("Score: ", 62, 10, YELLOW);
+					M.Write(to_string(Score), 69, 10, 15);
+					gotoXY(18, 22);
 					system("pause");
-					goto x2; // để không in thêm khung dưới press any key to continue...
+
 				}
-				if (KB_CODE == 'W' || KB_CODE == 'w') {
+				else if (KB_CODE == 'W' || KB_CODE == 'w') {
 					huong = 1;
 				}
 				else if (KB_CODE == 'S' || KB_CODE == 's') {
 					huong = 2;
 				}
-				else if ( KB_CODE == 'A' || KB_CODE == 'a') {
+				else if (KB_CODE == 'A' || KB_CODE == 'a') {
 					huong = 3;
 				}
 				else if (KB_CODE == 'D' || KB_CODE == 'd') {
@@ -807,7 +811,7 @@ public:
 			}
 			B.veKhung();
 			B.drawChuongNgaiVat();
-			x2:
+		x2:
 			if (S.ateFood(foodPoint)) {
 				Point T = foodPoint;
 				do {
@@ -819,7 +823,7 @@ public:
 			}
 			else B.drawFood(foodPoint);
 			if (xuyenTuong == 1 && S.checkFrameConllision()) {
-				
+
 				S.goThroughWall();
 				if (B.checkObstaclesCollision(S.getHeadSnack())) {
 					system("cls");
