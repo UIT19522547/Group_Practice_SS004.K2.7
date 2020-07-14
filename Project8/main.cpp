@@ -615,7 +615,7 @@ public:
 							ch = _getch(); //nhấn một phím
 							switch (ch)
 							{
-							case 75: ///phím trái
+							case 75: //phím trái
 								LuuPA = ChonPA;
 								ChonPA--;
 								if (ChonPA < 0) ChonPA = 2 - 1;//đến cuối thì biến đếm quay lại lựa chọn đầu
@@ -782,20 +782,27 @@ public:
 					system("pause");
 					goto x2; // để không in thêm khung dưới press any key to continue...
 				}
-				KB_CODE = _getch();
-				if (KB_CODE == KB_UP || KB_CODE == 'W' || KB_CODE == 'w') {
+				if (KB_CODE == 'W' || KB_CODE == 'w') {
 					huong = 1;
 				}
-				else if (KB_CODE == KB_DOWN || KB_CODE == 'S' || KB_CODE == 's') {
+				else if (KB_CODE == 'S' || KB_CODE == 's') {
 					huong = 2;
 				}
-				else if (KB_CODE == KB_LEFT || KB_CODE == 'A' || KB_CODE == 'a') {
+				else if ( KB_CODE == 'A' || KB_CODE == 'a') {
 					huong = 3;
 				}
-				else if (KB_CODE == KB_RIGHT || KB_CODE == 'F' || KB_CODE == 'd') {
+				else if (KB_CODE == 'D' || KB_CODE == 'd') {
 					huong = 4;
 				}
-				else if (KB_CODE == KB_ESCAPE) { return 0; }
+				else
+				{
+					KB_CODE = _getch();
+					if (KB_CODE == KB_UP) huong = 1;
+					else if (KB_CODE == KB_DOWN) huong = 2;
+					else if (KB_CODE == KB_LEFT) huong = 3;
+					else if (KB_CODE == KB_RIGHT) huong = 4;
+				}
+				if (KB_CODE == KB_ESCAPE) { return 0; }
 				S.setDirection(huong);
 			}
 			B.veKhung();
