@@ -31,6 +31,7 @@ struct Point {
 	int y;
 };
 void XoaManHinh() {
+	//source: blogkhanhtoan.wordpress.com/2016/03/07/mot-so-ham-mo-rong-trong-cc/
 	HANDLE hStdOut;
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
 	DWORD count;
