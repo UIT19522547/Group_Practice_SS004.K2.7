@@ -135,7 +135,7 @@ public:
 		khung.close();
 	}
 	void veKhung() { // lấy khung từ tệp khung.txt và vẽ vào game
-		fstream khung; 
+		fstream khung;
 		khung.open("khung.txt", ios::in);
 		char str[62];
 		string s;
@@ -243,7 +243,7 @@ public:
 		setTextColor(14);
 	}
 	// di chuyển rắn theo hướng hiện tại
-	void Move() { 
+	void Move() {
 		for (int i = doDai - 1; i > 0; i--) {
 			ran[i] = ran[i - 1];
 		}
@@ -307,15 +307,15 @@ public:
 		ran[0] = F;
 	}
 	//di chuyển đầu rắn sang phía bên không gian ngược lại
-	void goThroughWall() {	
-		if (ran[0].y==0)
+	void goThroughWall() {
+		if (ran[0].y == 0)
 			ran[0].y = height - 1;
-		else if (ran[0].y == height) 
+		else if (ran[0].y == height)
 			ran[0].y = 1;
 		else if (ran[0].x == 0)
 			ran[0].x = width - 1;
-		else if(ran[0].x == width)
-			ran[0].x = 1;	
+		else if (ran[0].x == width)
+			ran[0].x = 1;
 	}
 	int GetDoDai()
 	{
@@ -799,7 +799,7 @@ public:
 			}
 			B.veKhung();
 			B.drawChuongNgaiVat();
-			x2:
+		x2:
 			if (S.ateFood(foodPoint)) {
 				Point T = foodPoint;
 				do {
@@ -811,7 +811,7 @@ public:
 			}
 			else B.drawFood(foodPoint);
 			if (xuyenTuong == 1 && S.checkFrameConllision()) {
-				
+
 				S.goThroughWall();
 				if (B.checkObstaclesCollision(S.getHeadSnack())) {
 					system("cls");
@@ -872,10 +872,14 @@ public:
 		cout << "                        Y O U R   S C O R E : " << Score << endl << endl;
 		cout << "                        H I G H   S C O R E : " << H.highscore[0].Score << endl << endl;
 		string Player;
-		gotoXY(Rong - 1, Cao + 7);
-		setTextColor(14); cout << "Nhập tên: ";
-		setTextColor(7); cin >> Player;
-		H.setHighScore(Player, Score);
+		if (Score > H.highscore[0].Score)
+		{
+			gotoXY(Rong - 1, Cao + 7);
+			setTextColor(14); cout << "Nhập tên: ";
+			setTextColor(7); getline(cin, Player);
+			H.setHighScore(Player, Score);
+		}
+		
 	}
 };
 
