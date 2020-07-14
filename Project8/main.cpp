@@ -57,7 +57,7 @@ void setTextColor(int color)// đổi màu output
 {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
 }
-void DuaConTroVeDau()// đưa trỏ console về vị trí 0,0
+void DuaConTroVeDau()// đưa con trỏ console về vị trí 0,0
 {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	COORD pos = { 0, 0 };
@@ -91,7 +91,7 @@ public:
 		}
 		setTextColor(14);
 	}
-	void Ve_menu(int x0, int y0, int chon, int n, string s[])
+	void Ve_menu(int x0, int y0, int chon, int n, string s[]) // vẽ menu
 	{
 		y0 += 4;
 		x0 += 10;
@@ -394,7 +394,7 @@ public:
 	}
 	int XuatChuThich(bool i) // trả về 1 là vào hàm play game, 0 là quay về menu
 	{
-		int k = 2;
+		int k = 2; // mặc định là ở nút Play
 		system("cls");
 		ChuThich(i);
 		char ch = NULL;
@@ -403,7 +403,7 @@ public:
 			DuaConTroVeDau();
 			switch (k)
 			{
-			case 1:
+			case 1: // đang ở nút Back, nút Back in màu xanh
 				gotoXY(9, 18);
 				setTextColor(10); cout << "Back";
 				setTextColor(14);
@@ -412,10 +412,10 @@ public:
 				ch = _getch();
 				if (ch == KB_RIGHT || ch == KB_LEFT)
 					k = 2;
-				if (ch == 13)
+				if (ch == 13) // nhấn nút Back là quay về menu
 					return 0;
 				break;
-			case 2:
+			case 2: // đang ở nút Play, nút Play in màu xanh
 				gotoXY(9, 18);
 				cout << "Back";
 				gotoXY(42, 18);
@@ -426,7 +426,7 @@ public:
 				ch = _getch();
 				if (ch == KB_LEFT || ch == KB_RIGHT)
 					k = 1;
-				if (ch == 13)
+				if (ch == 13) // nhấn nút Play là vào chơi game
 					return 1;
 				break;
 			}
@@ -442,7 +442,7 @@ public:
 	HIGHSCORE()
 	{
 		ifstream in("highscore.txt"); // mở tệp highscore.txt để lấy điểm ra
-		if (is_empty(in))//nếu tệp trống thì khởi tạo lại bảng điểm và đóng tệp
+		if (is_empty(in))// nếu tệp trống thì khởi tạo lại bảng điểm và đóng tệp
 		{
 			Initialize();
 			in.close();
@@ -567,32 +567,32 @@ public:
 		string PA[2];
 		PA[0] = "YES";
 		PA[1] = "NO";
-		int  chon = 0/*lua chon hien tai*/, luuchon/*lua chon truoc do*/, soluachon = 3, ok = FALSE/*Nhan enter hay chua*/;
+		int  chon = 0/*lựa chọn hiện tại*/, luuchon/*lựa chọn trước đó*/, soluachon = 3, ok = FALSE/*nhấn ENTER hay chưa*/;
 		M.Ve_menu(Rong, Cao, chon, soluachon, st);
 		do
 		{
 			DuaConTroVeDau();
-			ch = _getch(); //Nhan mot phim
+			ch = _getch(); //nhấn một phím
 			switch (ch)
 			{
-			case 72: //phim len
+			case 72: //phím lên
 				luuchon = chon;
 				chon--;
-				if (chon < 0) chon = soluachon - 1;//Den cuoi thi bien dem quay lai lua chon dau
-				M.Write(st[luuchon], Rong + 10, Cao + luuchon + 4, YELLOW);//lua chon truoc do doi lai thanh mau vang
-				M.Write(st[chon], Rong + 10, Cao + chon + 4, CYAN);//lua chon dang chon se doi thanh mau xanh
+				if (chon < 0) chon = soluachon - 1;//đến cuối thì biến đếm quay lại lựa chọn đầu
+				M.Write(st[luuchon], Rong + 10, Cao + luuchon + 4, YELLOW);//lựa chọn trước đó đổi lại thành màu vàng
+				M.Write(st[chon], Rong + 10, Cao + chon + 4, CYAN);//lựa chọn đang chọn sẽ là màu xanh
 				break;
-			case 80://phim xuong
+			case 80://phím xuống
 				luuchon = chon;
 				chon++;
 				if (chon == soluachon) chon = 0;
 				M.Write(st[luuchon], Rong + 10, Cao + luuchon + 4, YELLOW);
 				M.Write(st[chon], Rong + 10, Cao + chon + 4, CYAN);
 				break;
-			case 13: //phim ENTER
+			case 13: //phím ENTER
 				ok = TRUE; break;
 			}
-			if (ok == TRUE) //Neu phim ENTER duoc nhan
+			if (ok == TRUE) //nếu phím ENTER được nhấn
 			{
 				switch (chon)
 				{
@@ -612,7 +612,7 @@ public:
 						while (ch != 13)
 						{
 							DuaConTroVeDau();
-							ch = _getch(); //Nhan mot phim
+							ch = _getch(); //nhấn một phím
 							switch (ch)
 							{
 							case 75: //phím trái
@@ -856,7 +856,7 @@ public:
 		return 1;
 	}
 
-	void endgame() //just some screens for certain actions
+	void endgame() // hiển thị phần game over và nhập tên người chơi
 	{
 		setTextColor(14);
 		cout << "" << endl << endl;
