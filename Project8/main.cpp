@@ -784,7 +784,7 @@ public:
 					M.Write(to_string(Score), 69, 10, 15);
 					gotoXY(18, 22);
 					system("pause");
-
+					goto x2; // để không vẽ thêm khung dưới press any key to continue...
 				}
 				else if (KB_CODE == 'W' || KB_CODE == 'w') {
 					huong = 1;
