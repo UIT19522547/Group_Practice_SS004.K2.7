@@ -124,31 +124,27 @@ private:
 	int sl_chuongNgaiVat;
 	Point chuongNgaiVat[20];
 public:
+	BACKGROUND() {
+		ofstream khung;
+		khung.open("khung.txt", ios::out | ios::trunc);
+		khung << "= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =" << endl;
+		for (int i = 0; i <= height - 2; i++)
+			khung << "=                                                           =" << endl;
+		khung << "= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =" << endl;
+		khung.close();
+	}
 	void veKhung() {
-		int j = 0;
-		int i = 0;
-		setTextColor(15);
-		for (i = 0; i <= width; i += 2) {
-			gotoXY(i, j);
-			cout << "= ";
+		fstream khung;
+		khung.open("khung.txt", ios::in);
+		char str[62];
+		string s;
+		for (int i = 0; i <= height; i++) {
+			khung.getline(str, 62);
+			s = str;
+			cout << s << endl;
 		}
-		i = width;
-		for (j = 1; j <= height; j++) {
-			gotoXY(i, j);
-			cout << "=";
-		}
-		i = 0;
-		for (j = 1; j <= height; j++) {
-			gotoXY(i, j);
-			cout << "=";
-		}
-		j = height;
-		for (i = 0; i <= width; i += 2) {
-			gotoXY(i, j);
-			cout << "= ";
-		}
+		khung.close();
 		setTextColor(14);
-
 	}
 	void drawFood(Point& F) {
 		gotoXY(F.x, F.y);
@@ -759,9 +755,9 @@ public:
 		//Khai báo + tự động khởi tạo background và con rắn
 		S.Move(); //Lần đầu tiên di chuyển tọa độ đầu và đuôi sẽ bị trùng. Nếu không chạy hàm move 1 lần trước thì hàm checkCollision sẽ true -> Game Over ngay từ đầu
 		//Ve khung và con rắn và chướng ngại vật
+		B.veKhung();
 		B.drawChuongNgaiVat();
 		S.Ve();
-		B.veKhung();
 		//Khai báo và khởi tạo các tham số để quản lý con mồi
 		long long timeFood = 0;
 		bool FoodAppear = true;
@@ -775,17 +771,6 @@ public:
 		while (KB_CODE != KB_ESCAPE) {
 			XoaManHinh();
 			system("cls");
-			if (S.ateFood(foodPoint)) {
-				Point T = foodPoint;
-				do {
-					foodPoint.x = 1 + rand() % 59;
-					foodPoint.y = 1 + rand() % 19;
-				} while (S.checkFoodCollision(foodPoint));
-				B.drawFood(foodPoint);
-				S.growLength(T);
-			}
-			else B.drawFood(foodPoint);
-			timeFood++;
 			if (_kbhit()) {
 				KB_CODE = _getch();
 				if (KB_CODE == KB_UP || KB_CODE == 'W' || KB_CODE == 'w') {
@@ -813,6 +798,17 @@ public:
 			}
 			B.veKhung();
 			B.drawChuongNgaiVat();
+			if (S.ateFood(foodPoint)) {
+				Point T = foodPoint;
+				do {
+					foodPoint.x = 1 + rand() % 59;
+					foodPoint.y = 1 + rand() % 19;
+				} while (S.checkFoodCollision(foodPoint));
+				B.drawFood(foodPoint);
+				S.growLength(T);
+			}
+			else B.drawFood(foodPoint);
+			timeFood++;
 			if (xuyenTuong == 1 && S.checkFrameConllision()) {
 				S.goThroughWall();
 				if (B.checkObstaclesCollision(S.getHeadSnack())) {
